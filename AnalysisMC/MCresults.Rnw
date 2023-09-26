@@ -1,0 +1,658 @@
+ \documentclass[12pt]{article}
+
+%------------- fonts ------------------------------
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+%\usepackage{mathptmx}
+%\usepackage{kpfonts}
+%\usepackage{stix}
+%\usepackage{libertine}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage[compact]{titlesec}
+\usepackage[bottom]{footmisc} % typesetting of footnotes
+
+
+
+%-------------- Math packges ----------------------
+\usepackage{amsmath, amssymb, bm, bbm, natbib, babel, units}
+%\input{ee.sty}
+
+%----------- Hyperref------------------------------
+\usepackage[colorlinks = true, linkcolor = blue, citecolor = blue, urlcolor = black, breaklinks]{hyperref}
+\usepackage{authblk} %authors
+\usepackage{changes}
+
+% ------------ Graphics -----------------
+\usepackage{graphicx}
+\usepackage{float}
+\DeclareGraphicsExtensions{.png,.pdf,.jpg,.eps}
+%\usepackage[capposition = top]{floatrow}
+
+% ------ packages for tables ------------
+\usepackage{longtable, array, booktabs, dcolumn, multirow, siunitx}
+\usepackage[hang, singlelinecheck=off, center]{caption}
+\usepackage[flushleft]{threeparttable}
+
+
+% ------ format of pages ---------------
+\usepackage{pdflscape} % allows landscape tables with pdflatex
+\usepackage[right=2.5cm,left=2.5cm,top=2cm,bottom=2cm,headsep=0.5cm,footskip=0.5cm]{geometry}
+%\setlength\parindent{0pt} % no indent all document
+\raggedbottom % No stretched tex
+\sloppy % Avoid overfull hbox
+\pretolerance=2000
+\tolerance=3000
+%------- appendix ---------------
+\usepackage[title]{appendix}
+
+%------------- other ---------------
+\usepackage{color}
+
+\newtheorem{assump}{Assumption}
+\newtheorem{remark}{Remark}
+
+\renewcommand{\baselinestretch}{1.2}
+\pagestyle{plain}
+\frenchspacing
+
+\begin{document}
+%\SweaveOpts{concordance=TRUE}
+%\SweaveOpts{concordance=TRUE}
+
+\title{Monte Carlo results for: Instrumental Variables with Unobserved Heterogeneity: A Latent Class Approach}
+
+\author{Pablo Rodriguez-Rodriguez \and Mauricio Sarrias}
+
+
+\date{\today}
+\maketitle
+\pagenumbering{arabic}
+
+
+This document presents the main results for the Monte Carlo experiment. 
+
+
+\pagebreak
+
+<<setup, echo = FALSE, warning=FALSE, message=FALSE>>=
+rm(list = ls(all.names = TRUE))
+setwd("~/Dropbox/work/Packages/Testing-ivhetLc")
+
+# Load packages
+library("ivhetLc")
+library("AER")
+library("memisc")
+library("xtable")
+
+sanitize <- function(x, par, class, type){
+  #if(class == "class 1") q <-1 else q <- 2
+  share1 <- x[["lciv"]]["share", "est", "class 1"]
+  share2 <- x[["lciv"]]["share", "est", "class 2"]
+  if (class == "class 1"){
+    if(share1 > share2) {
+      return(x[["lciv"]][par, type, "class 2"])
+    } else {
+      return(x[["lciv"]][par, type, "class 1"])
+    }
+  } else {
+    if(share1 < share2) {
+      return(x[["lciv"]][par, type, "class 2"])
+    } else {
+      return(x[["lciv"]][par, type, "class 1"])
+    }
+  }
+}
+
+sum_mc <- function(R){
+  # Estimates
+  gamma_q1 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+  gamma_q2 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+  delta_q1 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 1", type = "est"))
+  delta_q2 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 2", type = "est"))
+  rho_q1   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 1", type = "est"))
+  rho_q2   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 2", type = "est"))
+  share_q1 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 1", type = "est"))
+  share_q2 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 2", type = "est"))
+  # Standard errors
+  sgamma_q1 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 1", type = "se"))
+  sgamma_q2 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 2", type = "se"))
+  sdelta_q1 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 1", type = "se"))
+  sdelta_q2 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 2", type = "se"))
+  srho_q1   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 1", type = "se"))
+  srho_q2   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 2", type = "se"))
+  sshare_q1 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 1", type = "se"))
+  sshare_q2 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 2", type = "se"))
+  # Lower
+  lgamma_q1 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 1", type = "lwr"))
+  lgamma_q2 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 2", type = "lwr"))
+  ldelta_q1 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 1", type = "lwr"))
+  ldelta_q2 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 2", type = "lwr"))
+  lrho_q1   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 1", type = "lwr"))
+  lrho_q2   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 2", type = "lwr"))
+  lshare_q1 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 1", type = "lwr"))
+  lshare_q2 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 2", type = "lwr"))
+  # Upper
+  ugamma_q1 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 1", type = "upr"))
+  ugamma_q2 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 2", type = "upr"))
+  udelta_q1 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 1", type = "upr"))
+  udelta_q2 <- as.numeric(lapply(R, sanitize, par = "eq.2.z",  class = "class 2", type = "upr"))
+  urho_q1   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 1", type = "upr"))
+  urho_q2   <- as.numeric(lapply(R, sanitize, par = "rho",     class = "class 2", type = "upr"))
+  ushare_q1 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 1", type = "upr"))
+  ushare_q2 <- as.numeric(lapply(R, sanitize, par = "share",   class = "class 2", type = "upr"))
+  # Bias
+  bias <- rbind(mean(gamma_q1 - gamma[1]), 
+                mean(gamma_q2 - gamma[2]), 
+                mean(delta_q1 - d1[1]), 
+                mean(delta_q2 - d1[2]), 
+                mean(rho_q1 - rho[1]), 
+                mean(rho_q2 - rho[2]),
+                mean(share_q1 - prop[1]), 
+                mean(share_q2 -  prop[2]))
+  rmse <- rbind(sqrt(var(gamma_q1) + bias[1]^2), 
+                sqrt(var(gamma_q2) + bias[2]^2), 
+                sqrt(var(delta_q1) + bias[3]^2), 
+                sqrt(var(delta_q2) + bias[4]^2),
+                sqrt(var(rho_q1)   + bias[5]^2), 
+                sqrt(var(rho_q2)   + bias[6]^2),
+                sqrt(var(share_q1) + bias[7]^2), 
+                sqrt(var(share_q2) + bias[8]^2))
+  #rej <- rbind(mean(abs((gamma_q1 - gamma[1]) / sgamma_q1) > 1.96), 
+  #             mean(abs((gamma_q2 - gamma[2]) / sgamma_q2) > 1.96), 
+  #             mean(abs((delta_q1 - d1[1]) / sdelta_q1) > 1.96), 
+  #             mean(abs((delta_q2 - d1[2]) / sdelta_q2) > 1.96), 
+  #             mean(abs((rho_q1 - rho[1]) / srho_q1) > 1.96), 
+  #             mean(abs((rho_q2 - rho[2]) / srho_q2) > 1.96), 
+  #             mean(abs((share_q1 - prop[1]) / sshare_q1) > 1.96), 
+  #             mean(abs((share_q2 - prop[2]) / sshare_q2) > 1.96))
+  rej <- rbind(mean(lgamma_q1 < gamma[1] & gamma[1] < ugamma_q1), 
+               mean(lgamma_q2 < gamma[2] & gamma[2] < ugamma_q2), 
+               mean(ldelta_q1 < d1[1] & d1[1] < udelta_q1),
+               mean(ldelta_q2 < d1[2] & d1[2] < udelta_q2), 
+               mean(lrho_q1 < rho[1] & rho[1]  < urho_q1), 
+               mean(lrho_q2 < rho[2] & rho[2]  < urho_q2), 
+               mean(lshare_q1 < prop[1] & prop[1]  < ushare_q1),
+               mean(lshare_q2 < prop[2] & prop[2] < ushare_q2))
+  #out <- cbind(bias, rmse, rej)
+  #colnames(out) <- c("Bias", "RMSE", "Cov")
+  out <- cbind(bias, rmse)
+  colnames(out) <- c("Bias", "RMSE")
+  return(out)
+}
+@
+
+%-------------------------
+\section{Experiment 1}
+%-------------------------
+
+In this experiment:
+
+\begin{table}[H]
+\caption{True values of the parameters for MC experiment 1}\label{tab:exp1}
+\centering
+\begin{tabular}{lcccccccc}
+\midrule
+  & $\beta_0$  & $\gamma$ & $\delta_0$  & $\delta_1$ & $\rho$ & $\sigma_{\epsilon}$ & $\sigma_{\upsilon}$ & $\pi$ \\
+\midrule
+Class 1 & -1 & -1  & -1  &  -1 & 0.5 & 1 & 1 & 0.3\\
+Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
+\midrule
+\end{tabular}
+\end{table}
+
+%=================================================
+\subsection{Results for parameters in each class}
+%=================================================
+
+<<tab1a, echo = FALSE, results = 'asis'>>=
+# Change bad values
+load("results_MC1.Rdata")
+prop     <- c(0.3, 0.7)    # Proportion of individuals in each class
+rho      <- c(0.5, 0.5)     # Degree of the endogeneity 
+# Structural parameters
+b0       <- c(-1, 1)
+gamma    <- c(-1, 2)
+# First-Equation parameters
+d0       <- c(-1, 1)
+d1       <- c(-1, 2)
+
+
+table <- cbind(sum_mc(FL1_n1), 
+               sum_mc(FL1_n2), 
+               sum_mc(FL1_n3), 
+               sum_mc(FL1_n4))
+rownames(table) <- c("$\\gamma_{1}$", 
+                     "$\\gamma_{2}$", 
+                     "$\\delta_{11}$", 
+                     "$\\delta_{12}$", 
+                     "$\\rho_{1}$", 
+                     "$\\rho_{2}$", 
+                     "$\\pi_{1}$", 
+                     "$\\pi_{2}$")
+table <- xtable(table)
+caption(table) <- "Simulation results for LCIV parameters\\label{tab:table1}"
+digits(table) <- c(0, rep(4, 8))
+align(table) <- "lcccccccc"
+addtorow     <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\toprule & \\multicolumn{2}{c}{$N$ = 100} & \\multicolumn{2}{c}{$N$ = 500} & \\multicolumn{2}{c}{$N$ = 1000} &  \\multicolumn{2}{c}{$N$ = 5000} \\\\\n")
+print(table, 
+      booktabs = TRUE, 
+      tabular.environment = "longtable", 
+      floating = FALSE, 
+      table.placement = "H", 
+      caption.placement = "top", 
+      include.rownames = TRUE,
+      add.to.row = addtorow,
+      sanitize.rownames.function = function(x) x)
+@
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\gamma$ and $\delta_1$ for both classes by sample size}
+ \centering
+<<fig1a, echo = FALSE, fig.width = 8, fig.height= 7>>=
+# Plot Gamma  and Delta----
+gamma_q1_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+
+gamma_q2_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+
+delta_q1_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+
+delta_q2_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+
+
+par(mfrow = c(2,2), cex = 1, mar = c(3, 3, 2, 1) + 0.1)
+boxplot(cbind(gamma_q1_n1, gamma_q1_n2, gamma_q1_n3, gamma_q1_n4), 
+        main = expression(paste(gamma,  " for class 1 = -1")), 
+        names = c("100", "500", "1000", "5000"))
+abline(h = gamma[1], col = "red")
+boxplot(cbind(gamma_q2_n1, gamma_q2_n2, gamma_q2_n3, gamma_q2_n4), 
+        main = expression(paste(gamma,  " for class 2 = 2")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = gamma[2], col = "red")
+boxplot(cbind(delta_q1_n1, delta_q1_n2, delta_q1_n3, delta_q1_n4), 
+        main = expression(paste(delta[1],  " for class 1 = -1")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = d1[1], col = "red")
+boxplot(cbind(delta_q2_n1, delta_q2_n2, delta_q2_n3, delta_q2_n4), 
+        main = expression(paste(delta[1],  " for class 2 = 2")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = d1[2], col = "red")
+@
+\end{figure}
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\rho$  and $\pi$ for both classes by sample size}
+ \centering
+<<fig2a, echo = FALSE, fig.width = 8, fig.height= 7>>=
+# Plot rho and pi ----
+rho_q1_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "rho", class = "class 1", type = "est"))
+
+rho_q2_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "rho", class = "class 2", type = "est"))
+
+share_q1_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "share", class = "class 1", type = "est"))
+
+share_q2_n1 <- as.numeric(lapply(FL1_n1, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n2 <- as.numeric(lapply(FL1_n2, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n3 <- as.numeric(lapply(FL1_n3, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n4 <- as.numeric(lapply(FL1_n4, sanitize, par = "share", class = "class 2", type = "est"))
+
+par(mfrow = c(2,2), cex = 1, mar = c(3, 3, 2, 1) + 0.1)
+boxplot(cbind(rho_q1_n1, rho_q1_n2, rho_q1_n3, rho_q1_n4), 
+        main = expression(paste(rho,  " for class 1 = 0.5")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = rho[1], col = "red")
+boxplot(cbind(rho_q2_n1, rho_q2_n2, rho_q2_n3, rho_q2_n4), 
+        main = expression(paste(rho,  " for class 2 = 0.5")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = rho[2], col = "red")
+boxplot(cbind(share_q1_n1, share_q1_n2, share_q1_n3, share_q1_n4), 
+        main = expression(paste(pi,  " for class 1 = 0.3")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = prop[1], col = "red")
+boxplot(cbind(share_q2_n1, share_q2_n2, share_q2_n3, share_q2_n4), 
+        main = expression(paste(pi,  " for class 2 = 0.7")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = prop[2], col = "red")
+@
+\end{figure}
+
+%========================================
+\subsection{Results for causal parameters}
+%========================================
+
+\begin{figure}[H]
+ \caption{Distribution of causal parameters by sample size}
+ \centering
+<<fig3a, echo = FALSE, fig.width = 8, fig.height= 4>>=
+# Plot causal parameters
+ate_n1 <- as.numeric(lapply(FL1_n1, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n2 <- as.numeric(lapply(FL1_n2, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n3 <- as.numeric(lapply(FL1_n3, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n4 <- as.numeric(lapply(FL1_n4, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+
+atem_n1 <- unlist(lapply(FL1_n1, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n2 <- unlist(lapply(FL1_n2, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n3 <- unlist(lapply(FL1_n3, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n4 <- unlist(lapply(FL1_n4, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+
+iv_n1 <- as.numeric((lapply(FL1_n1, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n2 <- as.numeric((lapply(FL1_n2, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n3 <- as.numeric((lapply(FL1_n3, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n4 <- as.numeric((lapply(FL1_n4, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+
+ols_n1 <- as.numeric((lapply(FL1_n1, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n2 <- as.numeric((lapply(FL1_n2, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n3 <- as.numeric((lapply(FL1_n3, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n4 <- as.numeric((lapply(FL1_n4, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+
+ate_tru <- prop[1] * gamma[1] + prop[2] * gamma[2]
+aie     <- prop[1]* d1[1] +  prop[2] * d1[2]
+itt     <- gamma[1] * prop[1] * d1[1] + gamma[2] * prop[2] * d1[2]
+late    <- itt / aie
+
+par(mfrow = c(1, 3), cex = 0.9, mar = c(3, 2, 2, 1) + 0.1)
+boxplot(cbind(ate_n1, ate_n2, ate_n3, ate_n4), 
+        main = "ATE: LCIV with Q = 2",
+        names = c("100", "500", "1000", "5000"))
+abline(h = ate_tru, col = "red")
+boxplot(list(atem_n1, atem_n2, atem_n3, atem_n4), 
+        main = "ATE: LCIV with Q = 3",
+        names = c("100", "500", "1000", "5000"))
+abline(h = ate_tru, col = "red")
+boxplot(cbind(iv_n1, iv_n2, iv_n3, iv_n4), 
+        main = "Estimated IV",
+        names = c("100", "500", "1000", "5000"))
+abline(h = late, col = "red")
+@
+\end{figure}
+
+
+<<tab1-str, echo = FALSE, results = 'asis'>>=
+table <- rbind(c(mean(ate_n1), sd(ate_n1), mean(ate_n2), sd(ate_n2), mean(ate_n3), sd(ate_n3), mean(ate_n4), sd(ate_n4)), 
+               c(mean(atem_n1), sd(atem_n1), mean(atem_n2), sd(atem_n2), mean(atem_n3), sd(atem_n3), mean(atem_n4), sd(atem_n4)),
+               c(mean(iv_n1), sd(iv_n1), mean(iv_n2), sd(iv_n2), mean(iv_n3), sd(iv_n3), mean(iv_n4), sd(iv_n4)),
+               c(mean(ols_n1), sd(ols_n1), mean(ols_n2), sd(ols_n2), mean(ols_n3), sd(ols_n3), mean(ols_n4), sd(ols_n4)))
+rownames(table) <- c("ATE", 
+                     "ATEM", 
+                     "IV", 
+                     "OLS")
+colnames(table) <- c("Mean", "SD", "Mean", "SD", "Mean", "SD", "Mean", "SD")
+table <- xtable(table)
+caption(table) <- "Simulation results for causal parameters"
+align(table) <- "lcccccccc"
+digits(table) <- c(0, rep(4, 8))
+addtorow     <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\toprule & \\multicolumn{2}{c}{$N$ = 100} & \\multicolumn{2}{c}{$N$ = 500} & \\multicolumn{2}{c}{$N$ = 1000} &  \\multicolumn{2}{c}{$N$ = 5000} \\\\\n")
+print(table, 
+      booktabs = TRUE, 
+      tabular.environment = "longtable", 
+      floating = FALSE, 
+      table.placement = "H", 
+      caption.placement = "top", 
+      include.rownames = TRUE,
+      add.to.row = addtorow,
+      sanitize.rownames.function = function(x) x)
+@
+
+
+%-------------------------
+\section{Experiment 2}
+%-------------------------
+
+In this experiment:
+
+\begin{table}[H]
+\caption{True values of the parameters for MC experiment 3}\label{tab:exp1}
+\centering
+\begin{tabular}{lcccccccc}
+\midrule
+  & $\beta_0$  & $\gamma$ & $\delta_0$  & $\delta_1$ & $\rho$ & $\sigma_{\epsilon}$ & $\sigma_{\upsilon}$ & $\pi$ \\
+\midrule
+Class 1 & -1 & -1  & -1  &  0 & 0.5 & 1 & 1 & 0.3\\
+Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
+\midrule
+\end{tabular}
+\end{table}
+
+%----------------------------------------------------
+\subsection{Results for parameters in each class}
+%----------------------------------------------------
+
+<<tab1c, echo = FALSE, results = 'asis'>>=
+load("results_MC3.Rdata")
+prop     <- c(0.3, 0.7)    # Proportion of individuals in each class
+rho      <- c(0.5, 0.5)     # Degree of the endogeneity 
+# Structural parameters
+b0       <- c(-1, 1)
+gamma    <- c(-1, 2)
+# First-Equation parameters
+d0       <- c(-1, 1)
+d1       <- c(0, 2)
+
+table <- cbind(sum_mc(FL3_n1), 
+               sum_mc(FL3_n2), 
+               sum_mc(FL3_n3), 
+               sum_mc(FL3_n4))
+rownames(table) <- c("$\\gamma_{1}$", 
+                     "$\\gamma_{2}$", 
+                     "$\\delta_{11}$", 
+                     "$\\delta_{12}$", 
+                     "$\\rho_{1}$", 
+                     "$\\rho_{2}$", 
+                     "$\\pi_{1}$", 
+                     "$\\pi_{2}$")
+table <- xtable(table)
+caption(table) <- "Simulation results for LCIV parameters\\label{tab:table3}"
+digits(table) <- c(0, rep(4, 8))
+align(table) <- "lcccccccc"
+addtorow     <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\toprule & \\multicolumn{2}{c}{$N$ = 100} & \\multicolumn{2}{c}{$N$ = 500} & \\multicolumn{2}{c}{$N$ = 1000} &  \\multicolumn{2}{c}{$N$ = 5000} \\\\\n")
+print(table, 
+      booktabs = TRUE, 
+      tabular.environment = "longtable", 
+      floating = FALSE, 
+      table.placement = "H", 
+      caption.placement = "top", 
+      include.rownames = TRUE,
+      add.to.row = addtorow,
+      sanitize.rownames.function = function(x) x)
+@
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\gamma$ and $\delta_1$ for both classes by sample size}
+ \centering
+<<fig1c, echo = FALSE, fig.width = 8, fig.height= 7>>=
+# Plot Gamma  and Delta----
+gamma_q1_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+gamma_q1_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
+
+gamma_q2_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+gamma_q2_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "eq.1.y2", class = "class 2", type = "est"))
+
+delta_q1_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+delta_q1_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "eq.2.z", class = "class 1", type = "est"))
+
+delta_q2_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+delta_q2_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "eq.2.z", class = "class 2", type = "est"))
+
+
+par(mfrow = c(2,2), cex = 1, mar = c(3, 3, 2, 1) + 0.1)
+boxplot(cbind(gamma_q1_n1, gamma_q1_n2, gamma_q1_n3, gamma_q1_n4), 
+        main = expression(paste(gamma,  " for class 1 = -1")), 
+        names = c("100", "500", "1000", "5000"))
+abline(h = gamma[1], col = "red")
+boxplot(cbind(gamma_q2_n1, gamma_q2_n2, gamma_q2_n3, gamma_q2_n4), 
+        main = expression(paste(gamma,  " for class 2 = 2")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = gamma[2], col = "red")
+boxplot(cbind(delta_q1_n1, delta_q1_n2, delta_q1_n3, delta_q1_n4), 
+        main = expression(paste(delta[1],  " for class 1 = 0")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = d1[1], col = "red")
+boxplot(cbind(delta_q2_n1, delta_q2_n2, delta_q2_n3, delta_q2_n4), 
+        main = expression(paste(delta[1],  " for class 2 = 2")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = d1[2], col = "red")
+@
+\end{figure}
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\rho$  and $\pi$ for both classes by sample size}
+ \centering
+<<fig2c, echo = FALSE, fig.width = 8, fig.height= 7>>=
+# Plot rho and pi ----
+rho_q1_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "rho", class = "class 1", type = "est"))
+rho_q1_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "rho", class = "class 1", type = "est"))
+
+rho_q2_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "rho", class = "class 2", type = "est"))
+rho_q2_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "rho", class = "class 2", type = "est"))
+
+share_q1_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "share", class = "class 1", type = "est"))
+share_q1_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "share", class = "class 1", type = "est"))
+
+share_q2_n1 <- as.numeric(lapply(FL3_n1, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n2 <- as.numeric(lapply(FL3_n2, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n3 <- as.numeric(lapply(FL3_n3, sanitize, par = "share", class = "class 2", type = "est"))
+share_q2_n4 <- as.numeric(lapply(FL3_n4, sanitize, par = "share", class = "class 2", type = "est"))
+
+par(mfrow = c(2,2), cex = 1, mar = c(3, 3, 2, 1) + 0.1)
+boxplot(cbind(rho_q1_n1, rho_q1_n2, rho_q1_n3, rho_q1_n4), 
+        main = expression(paste(rho,  " for class 1 = 0.5")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = rho[1], col = "red")
+boxplot(cbind(rho_q2_n1, rho_q2_n2, rho_q2_n3, rho_q2_n4), 
+        main = expression(paste(rho,  " for class 2 = 0.5")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = rho[2], col = "red")
+boxplot(cbind(share_q1_n1, share_q1_n2, share_q1_n3, share_q1_n4), 
+        main = expression(paste(pi,  " for class 1 = 0.3")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = prop[1], col = "red")
+boxplot(cbind(share_q2_n1, share_q2_n2, share_q2_n3, share_q2_n4), 
+        main = expression(paste(pi,  " for class 2 = 0.7")),
+        names = c("100", "500", "1000", "5000"))
+abline(h = prop[2], col = "red")
+@
+\end{figure}
+
+\section{Results for causal parameters}
+
+\begin{figure}[H]
+ \caption{Distribution of causal parameters by sample size}
+ \centering
+<<fig3c, echo = FALSE, fig.width = 8, fig.height= 4>>=
+# Plot causal parameters
+ate_n1 <- as.numeric(lapply(FL3_n1, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n2 <- as.numeric(lapply(FL3_n2, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n3 <- as.numeric(lapply(FL3_n3, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+ate_n4 <- as.numeric(lapply(FL3_n4, function(x) x[["lciv"]]["wate", "est", "class 1"]))
+
+atem_n1 <- unlist(lapply(FL3_n1, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n2 <- unlist(lapply(FL3_n2, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n3 <- unlist(lapply(FL3_n3, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+atem_n4 <- unlist(lapply(FL3_n4, function(x) x[["lcivmiss"]]["wate", "est", "class 1"]))
+
+iv_n1 <- as.numeric((lapply(FL3_n1, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n2 <- as.numeric((lapply(FL3_n2, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n3 <- as.numeric((lapply(FL3_n3, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+iv_n4 <- as.numeric((lapply(FL3_n4, function(x) x[["iv"]]["eq.1.y2", "est", "y1"])))
+
+ols_n1 <- as.numeric((lapply(FL3_n1, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n2 <- as.numeric((lapply(FL3_n2, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n3 <- as.numeric((lapply(FL3_n3, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+ols_n4 <- as.numeric((lapply(FL3_n4, function(x) x[["ols"]]["eq.1.y2", "est", "y1"])))
+
+ate_tru <- prop[1] * gamma[1] + prop[2] * gamma[2]
+aie     <- prop[1]* d1[1] +  prop[2] * d1[2]
+itt     <- gamma[1] * prop[1] * d1[1] + gamma[2] * prop[2] * d1[2]
+late    <- itt / aie
+
+par(mfrow = c(1, 3), cex = 0.9, mar = c(3, 2, 2, 1) + 0.1)
+boxplot(cbind(ate_n1, ate_n2, ate_n3, ate_n4), 
+        main = "ATE using LCIV with Q = 2",
+        names = c("100", "500", "1000", "5000"))
+abline(h = ate_tru, col = "red")
+boxplot(list(atem_n1, atem_n2, atem_n3, atem_n4), 
+        main = "ATE using LCIV with Q = 3",
+        names = c("100", "500", "1000", "5000"))
+abline(h = ate_tru, col = "red")
+boxplot(cbind(iv_n1, iv_n2, iv_n3, iv_n4), 
+        main = "Estimated IV",
+        names = c("100", "500", "1000", "5000"))
+abline(h = late, col = "red")
+@
+\end{figure}
+
+<<tab2-str, echo = FALSE, results = 'asis'>>=
+table <- rbind(c(mean(ate_n1), sd(ate_n1), mean(ate_n2), sd(ate_n2), mean(ate_n3), sd(ate_n3), mean(ate_n4), sd(ate_n4)), 
+               c(mean(atem_n1), sd(atem_n1), mean(atem_n2), sd(atem_n2), mean(atem_n3), sd(atem_n3), mean(atem_n4), sd(atem_n4)),
+               c(mean(iv_n1), sd(iv_n1), mean(iv_n2), sd(iv_n2), mean(iv_n3), sd(iv_n3), mean(iv_n4), sd(iv_n4)),
+               c(mean(ols_n1), sd(ols_n1), mean(ols_n2), sd(ols_n2), mean(ols_n3), sd(ols_n3), mean(ols_n4), sd(ols_n4)))
+rownames(table) <- c("ATE", 
+                     "ATEM", 
+                     "IV", 
+                     "OLS")
+colnames(table) <- c("Mean", "SD", "Mean", "SD", "Mean", "SD", "Mean", "SD")
+table <- xtable(table)
+caption(table) <- "Simulation results for causal parameters"
+align(table) <- "lcccccccc"
+digits(table) <- c(0, rep(4, 8))
+addtorow     <- list()
+addtorow$pos <- list(-1)
+addtorow$command <- c("\\toprule & \\multicolumn{2}{c}{$N$ = 100} & \\multicolumn{2}{c}{$N$ = 500} & \\multicolumn{2}{c}{$N$ = 1000} &  \\multicolumn{2}{c}{$N$ = 5000} \\\\\n")
+print(table, 
+      booktabs = TRUE, 
+      tabular.environment = "longtable", 
+      floating = FALSE, 
+      table.placement = "H", 
+      caption.placement = "top", 
+      include.rownames = TRUE,
+      add.to.row = addtorow,
+      sanitize.rownames.function = function(x) x)
+@
+
+
+\end{document}

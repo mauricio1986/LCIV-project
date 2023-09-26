@@ -1,0 +1,179 @@
+\begin{thebibliography}{}
+
+\bibitem[Abadie et~al., 2023]{abadie2019instrumental}
+Abadie, A., Gu, J., and Shen, S. (2023).
+\newblock Instrumental variable estimation with first-stage heterogeneity.
+\newblock {\em Journal of Econometrics}.
+
+\bibitem[Abrevaya and Xu, 2021]{abrevaya2021estimation}
+Abrevaya, J. and Xu, H. (2021).
+\newblock Estimation of treatment effects under endogenous heteroskedasticity.
+\newblock {\em Journal of Econometrics}.
+
+\bibitem[Angrist, 2004]{angrist2004treatment}
+Angrist, J.~D. (2004).
+\newblock Treatment effect heterogeneity in theory and practice.
+\newblock {\em The economic journal}, 114(494):C52--C83.
+
+\bibitem[Benini and Sperlich, 2022]{benini2022modeling}
+Benini, G. and Sperlich, S. (2022).
+\newblock Modeling heterogeneous treatment effects in the presence of
+  endogeneity.
+\newblock {\em Econometric Reviews}, 41(3):359--372.
+
+\bibitem[Breen and Ermisch, 2021]{breen2021instrumental}
+Breen, R. and Ermisch, J. (2021).
+\newblock Instrumental variable estimation in demographic studies: The late
+  interpretation of the iv estimator with heterogenous effects.
+\newblock Technical report, Center for Open Science.
+
+\bibitem[Dang et~al., 2017]{dang2017multivariate}
+Dang, U.~J., Punzo, A., McNicholas, P.~D., Ingrassia, S., and Browne, R.~P.
+  (2017).
+\newblock Multivariate response and parsimony for gaussian cluster-weighted
+  models.
+\newblock {\em Journal of Classification}, 34:4--34.
+
+\bibitem[Ebenstein, 2009]{ebenstein2009local}
+Ebenstein, A. (2009).
+\newblock When is the local average treatment close to the average? evidence
+  from fertility and labor supply.
+\newblock {\em Journal of Human Resources}, 44(4):955--975.
+
+\bibitem[Florens et~al., 2008]{florens2008identification}
+Florens, J.-P., Heckman, J.~J., Meghir, C., and Vytlacil, E. (2008).
+\newblock Identification of treatment effects using control functions in models
+  with continuous, endogenous treatment and heterogeneous effects.
+\newblock {\em Econometrica}, 76(5):1191--1206.
+
+\bibitem[Galimberti and Soffritti, 2020]{galimberti2020note}
+Galimberti, G. and Soffritti, G. (2020).
+\newblock A note on the consistency of the maximum likelihood estimator under
+  multivariate linear cluster-weighted models.
+\newblock {\em Statistics \& Probability Letters}, 157:108630.
+
+\bibitem[Gao and Pesaran, 2023]{gao2023identification}
+Gao, Z. and Pesaran, M.~H. (2023).
+\newblock Identification and estimation of categorical random coefficient
+  models.
+\newblock {\em arXiv preprint arXiv:2302.14380}.
+
+\bibitem[Heckman and Vytlacil, 1998]{heckman1998instrumental}
+Heckman, J. and Vytlacil, E. (1998).
+\newblock Instrumental variables methods for the correlated random coefficient
+  model: Estimating the average rate of return to schooling when the return is
+  correlated with schooling.
+\newblock {\em Journal of Human Resources}, pages 974--987.
+
+\bibitem[Heckman et~al., 2006]{heckman2006understanding}
+Heckman, J.~J., Urzua, S., and Vytlacil, E. (2006).
+\newblock Understanding instrumental variables in models with essential
+  heterogeneity.
+\newblock {\em The review of economics and statistics}, 88(3):389--432.
+
+\bibitem[Heckman and Vytlacil, 1999]{heckman1999local}
+Heckman, J.~J. and Vytlacil, E.~J. (1999).
+\newblock Local instrumental variables and latent variable models for
+  identifying and bounding treatment effects.
+\newblock {\em Proceedings of the national Academy of Sciences},
+  96(8):4730--4734.
+
+\bibitem[Heckman and Vytlacil, 2007]{heckman2007econometric}
+Heckman, J.~J. and Vytlacil, E.~J. (2007).
+\newblock Econometric evaluation of social programs, part ii: Using the
+  marginal treatment effect to organize alternative econometric estimators to
+  evaluate social programs, and to forecast their effects in new environments.
+\newblock {\em Handbook of econometrics}, 6:4875--5143.
+
+\bibitem[Hess, 2014]{hess2014latent}
+Hess, S. (2014).
+\newblock Latent class structures: taste heterogeneity and beyond.
+\newblock In {\em Handbook of choice modelling}, pages 311--330. Edward Elgar
+  Publishing.
+
+\bibitem[Huntington-Klein, 2020]{huntington2020instruments}
+Huntington-Klein, N. (2020).
+\newblock Instruments with heterogeneous effects: Bias, monotonicity, and
+  localness.
+\newblock {\em Journal of Causal Inference}, 8(1):182--208.
+
+\bibitem[Imbens and Angrist, 1994]{imbens1994identification}
+Imbens, G.~W. and Angrist, J.~D. (1994).
+\newblock Identification and estimation of local average treatment effects.
+\newblock {\em Econometrica}, 62(2):467--475.
+
+\bibitem[Klein, 2010]{klein2010heterogeneous}
+Klein, T.~J. (2010).
+\newblock Heterogeneous treatment effects: Instrumental variables without
+  monotonicity?
+\newblock {\em Journal of Econometrics}, 155(2):99--116.
+
+\bibitem[Masten and Torgovitsky, 2016]{masten2016identification}
+Masten, M.~A. and Torgovitsky, A. (2016).
+\newblock Identification of instrumental variable correlated random
+  coefficients models.
+\newblock {\em Review of Economics and Statistics}, 98(5):1001--1005.
+
+\bibitem[Maugis et~al., 2007]{maugis2007variable}
+Maugis, C., Celeux, G., and Martin-Magniette, M.-L. (2007).
+\newblock Variable selection for clustering with gaussian mixture models.
+\newblock {\em HAL}, 2007.
+
+\bibitem[McFadden, 1974]{mcfadden1974conditional}
+McFadden, D. (1974).
+\newblock Conditional logit analysis of qualitative choice behavior.
+\newblock {\em Frontiers in Econometrics}.
+
+\bibitem[McLachlan and Peel, 2004]{mclachlan2004finite}
+McLachlan, G.~J. and Peel, D. (2004).
+\newblock {\em Finite mixture models}.
+\newblock John Wiley \& Sons.
+
+\bibitem[Mogstad et~al., 2021]{mogstad2021causal}
+Mogstad, M., Torgovitsky, A., and Walters, C.~R. (2021).
+\newblock The causal interpretation of two-stage least squares with multiple
+  instrumental variables.
+\newblock {\em American Economic Review}, 111(11):3663--98.
+
+\bibitem[Newey and McFadden, 1994]{newey1994large}
+Newey, W.~K. and McFadden, D. (1994).
+\newblock Large sample estimation and hypothesis testing.
+\newblock {\em Handbook of econometrics}, 4:2111--2245.
+
+\bibitem[Newey and Stouli, 2022]{newey2022heterogeneous}
+Newey, W.~K. and Stouli, S. (2022).
+\newblock Heterogeneous coefficients, control variables and identification of
+  multiple treatment effects.
+\newblock {\em Biometrika}, 109(3):865--872.
+
+\bibitem[Ravallion, 2015]{ravallion2015implications}
+Ravallion, M. (2015).
+\newblock On the implications of essential heterogeneity for estimating causal
+  impacts using social experiments.
+\newblock {\em Journal of Econometric Methods}, 4(1):145--151.
+
+\bibitem[Sarrias, 2021]{sarrias2021two}
+Sarrias, M. (2021).
+\newblock A two recursive equation model to correct for endogeneity in latent
+  class binary probit models.
+\newblock {\em Journal of Choice Modelling}, page 100301.
+
+\bibitem[Wooldridge, 1997]{wooldridge1997two}
+Wooldridge, J.~M. (1997).
+\newblock On two stage least squares estimation of the average treatment effect
+  in a random coefficient model.
+\newblock {\em Economics letters}, 56(2):129--133.
+
+\bibitem[Wooldridge, 2003]{wooldridge2003further}
+Wooldridge, J.~M. (2003).
+\newblock Further results on instrumental variables estimation of average
+  treatment effects in the correlated random coefficient model.
+\newblock {\em Economics letters}, 79(2):185--191.
+
+\bibitem[Wooldridge, 2005]{wooldridge2005unobserved}
+Wooldridge, J.~M. (2005).
+\newblock Unobserved heterogeneity and estimation of average partial effects.
+\newblock {\em Identification and inference for econometric models: Essays in
+  honor of Thomas Rothenberg}, pages 27--55.
+
+\end{thebibliography}
