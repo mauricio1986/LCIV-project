@@ -27,13 +27,6 @@ Breen, R. and Ermisch, J. (2021).
   interpretation of the iv estimator with heterogenous effects.
 \newblock Technical report, Center for Open Science.
 
-\bibitem[Dang et~al., 2017]{dang2017multivariate}
-Dang, U.~J., Punzo, A., McNicholas, P.~D., Ingrassia, S., and Browne, R.~P.
-  (2017).
-\newblock Multivariate response and parsimony for gaussian cluster-weighted
-  models.
-\newblock {\em Journal of Classification}, 34:4--34.
-
 \bibitem[Ebenstein, 2009]{ebenstein2009local}
 Ebenstein, A. (2009).
 \newblock When is the local average treatment close to the average? evidence
@@ -113,11 +106,6 @@ Masten, M.~A. and Torgovitsky, A. (2016).
 \newblock Identification of instrumental variable correlated random
   coefficients models.
 \newblock {\em Review of Economics and Statistics}, 98(5):1001--1005.
-
-\bibitem[Maugis et~al., 2007]{maugis2007variable}
-Maugis, C., Celeux, G., and Martin-Magniette, M.-L. (2007).
-\newblock Variable selection for clustering with gaussian mixture models.
-\newblock {\em HAL}, 2007.
 
 \bibitem[McFadden, 1974]{mcfadden1974conditional}
 McFadden, D. (1974).

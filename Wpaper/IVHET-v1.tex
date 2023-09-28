@@ -159,8 +159,6 @@ Consider the implications of the compliers. If both classes are compliers such t
 
 Now consider the implications of defiers. Assume the same previous set up, but now $\delta_{11} = 1$ and $\delta_{12} = -1$, i.e., the second class is now defier. Then, the IV estimator in Equation \eqref{eq:WLATE} will converge to $(0.7)(2)(1/0.4)+(0.3)(1)(-1/0.4) = 2.75$, which is not representative of any class (or group of individuals). This illustrate that the WLATE interpretation of the IV estimator requires some limitation of the degree of heterogeneity. Although some of the individuals (or groups of individuals in our example) may not respond to the instrument, the rest of the individuals should respond in the same direction to changes in the instrument.
 
-%These simple examples shows that when the causal effect on the instrument is actually heterogeneous, the IV estimand generally differs from the ATE. 
-
 Finally, if the instrument effect is homogeneous,  ($\delta_{1q}  = \delta_1 \neq 0, \forall q$), then the weights equal one and WATE = ATE = $\E(\gamma)$ \citep{heckman1998instrumental, wooldridge1997two, wooldridge2003further}. Although this can be easily observed from Equation \eqref{eq:WLATE}, this results can also be explained by the concept of essential heterogeneity \citep{heckman2006understanding}. Put simply, essential heterogeneity implies that the treatment and instrument effects are correlated, $\cov(\gamma, \delta_{1})\neq 0$. This arises for example if people make rational choices about whether to participate in any offered treatment \citep{heckman2006understanding, ebenstein2009local, ravallion2015implications}. In other words, the assignment to treatment is correlated with receiving the treatment.\footnote{This is also known as selective take-up in randomized experiments. For more examples, see \cite{breen2021instrumental}, \cite{ravallion2015implications} and \cite{huntington2020instruments}.} If the instrument effect is homogeneous, then is the case that $\cov(\gamma, \delta_{1})= 0$.\footnote{Note that $\cov(\gamma, \delta_{1}) = \E(\gamma, \delta_{1})- \E(\gamma)\E(\delta_1)$. Since $\delta_1$ is constant across classes, it is also independent of $\gamma$. Then $\E(\gamma, \delta_{1}) = \E(\gamma)\E(\delta_1)$. Now, consider our example above and assume that $\delta_{11} = \delta_{12} = 2$. Then $\E(\gamma) = 1.7$,  $\E(\delta_{1}) = 2$, and $\E(\gamma, \delta_{1}) = (2)(0.7)(2) +  (1)(0.3)(2) = 3.4 = \E(\gamma)\E(\delta_1)$.}
 
 Specifically, note that Equation \eqref{eq:WLATE} can also be written as:
@@ -336,14 +334,14 @@ and its standard error can be estimated using Delta Method or bootstrap.
 %================================
 
 In this section, we aim to evaluate the finite sample properties of the LCIV estimator through two Monte Carlo experiments. For both experiments, we use a just-identified model represented by the following equations:
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
 		y_{1iq}   & =  \beta_{0q}  + \gamma_{q}y_{2iq}  + \epsilon_{iq}, \\
 		y_{2iq}   & = \delta_{0q} + \delta_{1q} z_{iq} + \upsilon_{iq}, 
 	\end{aligned}
-\end{equation}
+\end{equation*}
 %
-where $y_{2iq}$ is the continuous treatment variable, and $z_{iq}$ is the continuous independent instrument, following a normal distribution with mean 0 and variance $\sigma_{zq}^2 = 9$ for all $q$. The error terms $(\epsilon, \upsilon)$ are assumed to follow a bivariate normal distribution with zero mean, and $\sigma_{q,\epsilon} = \sigma_{q,\upsilon} = 1$ for all $q$. In particular, the error term for the structural equation is created using $\epsilon_{iq} = \left[(\rho_q\sigma_{q, \epsilon})/\sigma_{q, \upsilon}\right]\upsilon_{iq}  + \eta_{iq}$, where $\eta_{iq}\sim\rN\left(0, \left[1 - \rho_{q}^2\right]\sigma_{q, \epsilon}^2\right)$ for all $q$. 
+where $y_{2iq}$ is the continuous treatment variable, and $z_{iq}$ is the continuous independent instrument which follows a normal distribution with mean 0 and variance $\sigma_{zq}^2 = 9$ for all $q$. The error terms $(\epsilon, \upsilon)$ are assumed to follow a bivariate normal distribution with zero mean, and $\sigma_{q,\epsilon} = \sigma_{q,\upsilon} = 1$ for all $q$. In particular, the error term for the structural equation is created using $\epsilon_{iq} = \left[(\rho_q\sigma_{q, \epsilon})/\sigma_{q, \upsilon}\right]\upsilon_{iq}  + \eta_{iq}$, where $\eta_{iq}\sim\rN\left(0, \left[1 - \rho_{q}^2\right]\sigma_{q, \epsilon}^2\right)$ for all $q$. 
 
 Table \ref{tab:experiments} presents the parameter values for each of the two experiments. In each experiment, we assume the existence of two classes of individuals in the population ($Q = 2$).
 \begin{center}
@@ -351,18 +349,18 @@ Table \ref{tab:experiments} presents the parameter values for each of the two ex
 \end{center}
 
 In the first experiment, we assume a well-specified model. Since $\rho_q = 0.5$ for $q = 1, 2$, $y_{2iq}$ endogenous in both classes. We also assume that the instrument has sufficient power for both classes. The structural and first-stage parameters, denoted as $\vpsi_q = (\beta_{0q}, \gamma_{q}, \delta_{0q}, \delta_{1q})^\top$, take different values in each class and are distributed according to the following mass probability function:
-\begin{equation}
+\begin{equation*}
 	g(\vpsi) =
 	\begin{cases}
 		\vpsi_1 = (\beta_{01}, \gamma_{1}, \delta_{01}, \delta_{11}) =(-1, -1, -1, -1) & \mbox{wp $\pi_{1} = 0.3$}, \\
 		\vpsi_2 = (\beta_{02}, \gamma_{2}, \delta_{02}, \delta_{12}) = (1, 2, 1, 2) & \mbox{wp $\pi_{2} = 0.7$}. \\
 	\end{cases}
-\end{equation}
+\end{equation*}
 
 This distribution implies that 30\% of the population (the first class) has a negative treatment effect equal to $\gamma_1  = -1$, while the remaining 70\% of the population (the second class) has a positive treatment effect equal to $\gamma_2 = 2$. Thus, the ATE in the population, which includes both compliers and non-compliers, is $\textrm{ATE} = \E(\gamma) = \sum_{q = 1}^Q\pi_q\gamma_{q} = (0.3)(-1) + (0.7)(2) = 1.1$. Since the second class represents a larger proportion of the population, its positive treatment effect dominates, resulting in an overall positive ATE.
 
 The expectations for the rest of the parameters for the first experiment are $\E(\beta_0) = 0.4$, $\E(\delta_0) = 0.4$ and $\E(\delta_1) = 1.1$. The variance-covariance matrix of $\vpsi$ is given by:
-\begin{equation}
+\begin{equation*}
 	\mOmega_{\vpsi} = \begin{pmatrix}
 		\var(\beta_0) & \cov(\beta_0, \gamma) & \cov(\beta_0, \delta_0) &  \cov(\beta_0, \delta_{1}) \\
 		\cdot         & \var(\gamma)          &  \cov(\gamma, \delta_0) &  \cov(\gamma, \delta_1) \\
@@ -375,28 +373,22 @@ The expectations for the rest of the parameters for the first experiment are $\E
 		\cdot         & \cdot                 &  0.84 & 1.26 \\
 		\cdot         & \cdot                 &    \cdot        & 1.89
 	\end{pmatrix}.
-\end{equation}
+\end{equation*}
 
-The causal effect of the instrument is also heterogeneous, as $\delta_{11} = -1$ and $\delta_{12} = 2$. The instrument increases the treatment for class 2 but decreases it for class 1. Consequently, the monotonicity assumption does not hold, and the IV estimator of the treatment will converge to $\widehat{\gamma}_{\textrm{IV}}\pto \sum_{q = 1}^Q\gamma_q\pi_q\left(\frac{\delta_{1q}}{\sum_{q= 1}^Q \delta_{1q}\pi_q}\right) = 2.818$ (see Equation \eqref{eq:WLATE}). However, this causal estimator is not representative of any group as it contains negative weights. Thus, the bias of the IV estimator with respect to ATE is $\bias(\widehat{\gamma}_{\textrm{IV}}) = \frac{\cov(\gamma, \delta_1)}{\E(\delta_1)} = \frac{1.89}{1.1} = 1.718$ (see Equation \eqref{eq:WLATE2}). 
-
-%Under the setup of this experiment, the OLS estimator will converge to $\widehat{\gamma}_{\textrm{OLS}}\pto \frac{\cov(y_1, y_2)}{\var(y_2)} = \frac{\cov(y_1, \delta_0) + \cov(y_1, \delta_1 z) + \cov(y_1, \upsilon)}{\var(y_2)} = 1.700$.
+The causal effect of the instrument is also heterogeneous, as $\delta_{11} = -1$ and $\delta_{12} = 2$. The instrument increases the treatment for class 2 but decreases it for class 1. Consequently, the monotonicity assumption does not hold, and the IV estimator of the treatment will converge to $\widehat{\gamma}_{\textrm{IV}}\pto \sum_{q = 1}^Q\gamma_q\pi_q\left(\frac{\delta_{1q}}{\sum_{q= 1}^Q \delta_{1q}\pi_q}\right) = 2.818$ (see Equation \eqref{eq:WLATE}). Note that this causal estimator is not representative of any group as it contains negative weights. Thus, the bias of the IV estimator with respect to ATE is $\bias(\widehat{\gamma}_{\textrm{IV}}) = \frac{\cov(\gamma, \delta_1)}{\E(\delta_1)} = \frac{1.89}{1.1} = 1.718$ (see Equation \eqref{eq:WLATE2}). 
 
 In the second experiment, we investigate the finite sample properties of the LCIV estimator in a scenario where the instrument has no power for the first class. That is, condition (i) of Assumption \ref{assu:instruments} fails. Specifically, we assume:
-\begin{equation}
+\begin{equation*}
 	g(\vpsi) =
 	\begin{cases}
 		\vpsi_1 = (\beta_{01}, \gamma_{1}, \delta_{01}, \delta_{11}) =(-1, -1, -1, 0) & \mbox{wp $\pi_{1} = 0.3$}, \\
 		\vpsi_2 = (\beta_{02}, \gamma_{2}, \delta_{02}, \delta_{12}) = (1, 2, 1, 2) & \mbox{wp $\pi_{2} = 0.7$}. \\
 	\end{cases}
-\end{equation}
+\end{equation*}
 
 Since the structural parameters in the first and second experiment are the same, then ATE = 1.1 in the population. Note that under this setup, the monotonicity assumption holds since $\delta_{1q}\geq 0$ for all $q$. In fact, since $\E(\delta_1) = 1.4$, the IV estimator will converge $\widehat{\gamma}_{IV}\pto (-1)(0.3)\left(\frac{0}{1.4}\right) + (2)(0.7)\left(\frac{2}{1.4}\right)= 2$, which is the treatment effect for the second class. 
 
-%The OLS estimator will converge to $\widehat{\gamma}_{\textrm{OLS}}\pto \frac{\cov(y_1, y_2)}{\var(y_2)} = \frac{\cov(y_1, \delta_0) + \cov(y_1, \delta_1 z) + \cov(y_1, \upsilon)}{\var(y_2)} = \frac{53.26}{27.04} \approx 1.970$.
-
-%It can also be shown that the above setup implies $\corr(y_2, z) = 0.612$, which represents the average strength of the instrument.\footnote{Noting that $\var(y_{2i}) = \var(\delta_{0i}) +  \var(\delta_{1i})\var(z_i)+ \var(\delta_{1i})\E(z_i)^2 + \var(z_i)\E(\delta_{1i})^2 + \var(\upsilon_{i})= 29.74$,  then $\cov(y_{2i}, z_i)=\cov(\gamma_iz_i, z_i) = \E(\gamma_iz_i^2)-\E(\gamma_iz_i)\E(z_i) = \E(\gamma_i)\var(z_i)$, and $\corr(y_{2i}, z_i) = (1.1 \cdot 9)/(3 \cdot 5.45)=0.605$.}
-
-In each experiment, we generate $S=1000$ simulated samples, each with $N=\left\lbrace 100, 500, 1000, 5000\right\rbrace$ observation. In each simulated sample, we compute the IV estimator, the LCIV estimator under correct specification $Q = 2$, and the LCIV estimator under a misspecified model $Q =3$. The ATE for the LCIV models (both correct and misspecified model) in each sample $s = 1, ..., S$ is also computed as
+In each experiment, we generate $S=1000$ simulated samples, each with $N=\left\lbrace 100, 500, 1000, 5000\right\rbrace$ observation. In each simulated sample, we compute the IV estimator, the LCIV estimator under correct specification $Q = 2$, and the LCIV estimator under a misspecified model $Q =3$. The ATE for the LCIV models (both correct and misspecified model) in each sample $s = 1, ..., S$ is computed as
 \begin{equation}\label{eq:ATE-hat}
 	\textrm{ATE}_{\widehat{\gamma}}= \widehat{\pi}_1\widehat{\gamma}_1 + \widehat{\pi}_2\widehat{\gamma}_2,
 \end{equation}
@@ -404,12 +396,12 @@ In each experiment, we generate $S=1000$ simulated samples, each with $N=\left\l
 where $\widehat{\gamma}_1$ and $\widehat{\gamma}_2$ are the MLE for the treatment effect in each class, and 
 \begin{equation}
 	\begin{aligned}
-	\widehat{\pi}_1 & = \frac{\exp(0)}{\exp(0) + \exp(\widehat{\lambda_2})}, \\
-	\widehat{\pi}_2 & = \frac{\exp(\widehat{\lambda}_2)}{\exp(0) + \exp(\widehat{\lambda_2})}.
+	\widehat{\pi}_1 & = \frac{\exp(0)}{\exp(0) + \exp(\widehat{\lambda}_2)}, \\
+	\widehat{\pi}_2 & = \frac{\exp(\widehat{\lambda}_2)}{\exp(0) + \exp(\widehat{\lambda}_2)}.
 	\end{aligned}
 \end{equation}	
 	
-The MLE estimator for the LCIV model was implemented in R and is available for download at \url{https://github.com/mauricio1986/ivhetLc}. To speed-up the computational time, we used the BHHH optimization algorithm, and the variance-covariance matrix of the parameters, $\mV_{\vtheta}$, was estimated using Equation \eqref{eq:V-hat}. The staring values for the optimization came from a two-equation LC model, assuming no endogeneity. 
+The MLE estimator for the LCIV model was implemented in R and is available for download at \url{https://github.com/mauricio1986/ivhetLc}. To speed-up the computational time, we used the BHHH optimization algorithm, and the variance-covariance matrix of the parameters, $\mV_{\vtheta}$, was estimated using Equation \eqref{eq:V-hat}. The starting values for the optimization came from a two-equation LC model, assuming no endogeneity. 
 
 %================================
 \subsection{Monte Carlo results}
@@ -419,11 +411,7 @@ The MLE estimator for the LCIV model was implemented in R and is available for d
 \subsubsection{Experiment 1}
 %-----------------------------
 
-%This section presents the finding for first experiment, denoted as E1. The primary aim of this experiment is to assess the finite sample characteristics of the LCIV estimator and its implications for causal parameters in the context of a well-specified model. A well-specified model in this context refers to one where both latent classes are treated as endogenous, and the instrument has power in both classes. 
-
-In this section, we present the findings from Experiment 1 (E1), aimed at assessing the finite sample characteristics of the LCIV estimator within the context of a well-specified model. A well-specified model here implies that both latent classes are treated as endogenous, and the instrument exhibits power in both classes.
-
-%First, we show the results of the structural parameters. Figure \ref{fig:figure1} summarizes the distribution of the estimated treatment effect ($\gamma$) and instrument effect ($\delta_1$) based on 1000 Monte Carlo samples, for each sample size ($N$). Figure \ref{fig:figure2} provides the results for $\rho$ and $\pi$. The red horizontal line in each graph represents the true population parameters given in Table \ref{tab:experiments}. The left column presents results for class 1, while the right column displays results for class 2. Table \ref{tab:table1} provides insights into the bias and Root Mean Square Error (RMSE).
+In this section, we present the findings from Experiment 1 (E1), which aimed to assess the finite sample properties of the LCIV estimator within the framework of a well-defined model. In this context, a well-defined model implies that both latent classes are considered as endogenous, and the instrument has power in both classes.
 
 Figure \ref{fig:figure1} summarizes the distribution of estimated treatment effects ($\gamma$) and instrument effects ($\delta_1$) based on 1000 Monte Carlo samples for varying sample sizes ($N$). Similarly, Figure \ref{fig:figure2} provides results for $\rho$ and $\pi$. Each graph displays results for both class 1 (left column) and class 2 (right column). The red horizontal line represents the true population parameters detailed in Table \ref{tab:experiments}. Table \ref{tab:table1} complements these figures by offering insights into bias and Root Mean Square Error (RMSE). 
 
@@ -439,9 +427,7 @@ Figure \ref{fig:figure1} summarizes the distribution of estimated treatment effe
 	(Insert Table \ref{tab:table1} about here)
 \end{center}
 
-%Inspection of Figure \ref{fig:figure1} reveals unbiased estimates for both the treatment and instrument effects, even with a small sample size such as 100. Table \ref{tab:table1} corroborates this result. For example, the bias for $\gamma_1$ is -0.0048 when $N = 100$ and about 0.0001 when $N = 5000$, this implies a reduction of about 102\%. Overall, the bias for all parameters tend to approach zero, and the variability of the estimates substantially decreases with larger sample size. The RMSE in Table \ref{tab:table1} confirms this trend.
-
-The examination of Figure \ref{fig:figure1} demonstrates unbiased estimates for both treatment and instrument effects, even when the sample size is as small as 100. This conclusion is corroborated by the bias statistics presented in Table \ref{tab:table1}. For example, the bias for $\gamma_1$ reduces from -0.0048 to approximately 0.0001 as the sample size increases from 100 to 5000, representing a substantial 102\% reduction. Overall, bias tends to approach zero, and estimate variability significantly diminishes with larger sample sizes, as indicated by the RMSE values in Table \ref{tab:table1}. 
+The examination of Figure \ref{fig:figure1} demonstrates unbiased estimates for both treatment and instrument effects, even with a relatively modest sample size of 100. This conclusion is corroborated by the bias statistics presented in Table \ref{tab:table1}. For example, the bias for $\gamma_1$ reduces from -0.0048 to approximately 0.0001 as the sample size increases from 100 to 5000, representing a substantial 102\% reduction. Overall, bias tends to approach zero, and estimate variability significantly diminishes with larger sample sizes, as indicated by the RMSE values in Table \ref{tab:table1}. 
 
 A similar pattern is observed in Figure \ref{fig:figure2} for $\rho$ and $\pi$. Generally, bias and RMSE for $\rho$ are lower for the class with a higher proportion, as confirmed by Table \ref{tab:table1}. 
 
@@ -449,44 +435,35 @@ Overall, the well-specified LCIV model consistently produces reliable estimates 
 
 Table \ref{tab:table2} provides the mean and standard deviation for the causal parameters for each sample size.\footnote{The distribution of the causal parameters are reported in Figure \ref{fig:figure-A1}.} ATE is the average treatment effect computed for the well-specified model, $Q = 2$. ATEM is the ATE computed for the miss-specified model, $Q = 3$. Both estimates are computed using Equation \eqref{eq:ATE-hat}. 
 
-According to our previous discussion in Section \ref{sec:monte-carlo-design}, the ATE should converge to 1.1 as the sample size ($N$) increases without bound. Remarkably, both the LCIV models, one with the correct number of classes and the other with an incorrect number of classes, yield unbiased ATE estimates. ATEM estimates show slightly more variability, but remain close to the true value. In contrast, the IV estimator exhibits significant bias toward the theoretical value of 2.818 due to the positive covariance between the treatment and instrument effects and the average instrument effect. Meanwhile, OLS converges to the theoretical value of 1.7.
+According to our previous discussion in Section \ref{sec:monte-carlo-design}, the ATE should converge to 1.1 as the sample size ($N$) increases without bound. Remarkably, both the LCIV models, one with the correct number of classes and the other with an incorrect number of classes, produce unbiased ATE estimates. ATEM estimates show slightly more variability, but remain close to the true value. In contrast, the IV estimator exhibits significant bias toward the theoretical value of 2.818 due to the positive covariance between the treatment and instrument effects and the average instrument effect.
 
 \begin{center}
 	(Insert Table \ref{tab:table2} about here)
 \end{center}
 
-Experiment 1 demonstrates the robustness and accuracy of the LCIV estimator in a well-specified model. It consistently produces unbiased estimates of treatment and instrument effect parameters, even with small sample sizes. These findings underscore the utility of the LCIV estimator in estimating causal effects when latent classes are endogenous and the instrument has power.
+Experiment 1 demonstrates the robustness and accuracy of the LCIV estimator in a well-specified model. It consistently produces unbiased estimates of treatment and instrument effect parameters, even with small sample sizes. These findings show the utility of the LCIV estimator in estimating causal effects when latent classes are endogenous and the instrument has power.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Experiment 2}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-In Experiment 2 (E2), we analyze a scenario in which the instrument has no power for the first class, $\delta_1 = 0$. This setup examines the consistency of the LCIV estimator and the causal parameters when faced with limited instrumental strength.
+In this section, we evaluate the behavior of the LCIV estimator and the causal parameters for Experiment 2 (E2). The setup in this experiment assumes that the instrument in the first class has no power,  $\delta_{11} = 0$. 
 
-Table \ref{tab:table3} reveals a striking disparity in the estimation of treatment effects for the two latent classes. Notably, the treatment effect for the first class exhibits significant bias, with a positive bias that does not diminish with increasing sample size. This bias in $\gamma_1$ is a direct consequence of the instrument's inability to exert influence in the first class, resulting in a problematic estimation scenario.
+Table \ref{tab:table3} reveals a striking disparity in the estimation of treatment effects for the two latent classes. Notably, the treatment effect for the first class exhibits significant positive bias that does not diminish with increasing sample size. The identification failure of $\gamma_1$ is a direct consequence of the lack of power of the instrument. 
 
-As expected, the estimates for $\rho_1$ also manifest bias. In fact, these estimates tend toward zero, leading to a negative bias. This observation underscores that the estimation of the degree of endogeneity is influenced by the instrumental strength. In other words, the validity of testing exogeneity for each class, $H_0: \rho_q = 0$, hinges on the effectiveness of the instrument.
+As expected, the estimates for $\rho_1$ are also biased. In fact, these estimates tend toward zero, leading to a negative bias. This observation underscores that the estimation of the degree of endogeneity is influenced by the instrument's strength. Thus, the validity of testing exogeneity for each class, $H_0: \rho_q = 0$, hinges on the instrument's power.
 
-Conversely, since the instrument retains its correlation with the endogenous variable in class 2, the estimates for the treatment effect in this class remain unbiased. Thus, we can accurately identify the treatment effect in the class where the instrument maintains a strong correlation with the endogenous variable.
-
-
-%Table \ref{tab:table3} presents the results for the structural parameters. It can be observed that treatment effect for the first class is highly biased. The bias of $\gamma_1$ is positive and does not decrease with the sample size. As expected, the estimates for $\rho_1$ are also biased. In fact, the estimates of $\rho_1$ tend to zero producing a negative bias. This result reveals that the estimate of the degree of endogeneity is also biased if the instrument is weak. In other words, testing exogeneity for each class, $H_0 = \rho_q = 0$, is valid as long as the instrument is valid.  
+Since the instrument is correlated with the endogenous variable in class 2, its estimates for the treatment effect remain unbiased. Thus, we are able at least to correctly identify the treatment effect for the class for which the instrument is strongly correlated with the endogenous variable.
 
 \begin{center}
 	(Insert Table \ref{tab:table3} about here)
 \end{center}
 
-%Since the instrument is correlated with the endogenous variable in class 2, its estimates for the treatment effect remain unbiased. Thus, we are able at least to correctly identify the treatment effect for the class for which the instrument is strongly correlated with the endogenous variable. 
+Turning our attention to Table \ref{tab:table4}, we observe the results for the causal parameters in Experiment 2. Both the Average Treatment Effect (ATE) and the Average Treatment Effect for the misspecified model (ATEM) estimates display an upward bias. This bias primarily stems from the substantial upward bias exhibited by $\gamma_1$. However, it's worth noting that the bias of the ATE estimate is somewhat mitigated by the fact that class 1 represents only 30\% of the sample. In addition, the variability of the ATE estimates in E2 is noticeably higher than that in E1, reflecting the challenging estimation conditions imposed by limited instrumental power. 
 
-Turning our attention to Table \ref{tab:table4}, we observe the results for the causal parameters in Experiment 2. Both the Average Treatment Effect (ATE) and the Average Treatment Effect for the misspecified model (ATEM) estimates display an upward bias. This bias primarily stems from the substantial upward bias exhibited by $\gamma_1$. However, it's worth noting that the bias of the ATE estimate is somewhat mitigated by the fact that class 1 represents only 30\% of the sample.
+As expected, the IV estimator converges to the treatment effect for the compliers. That is, it converges to the treatment of the second class, $\gamma_{2} = 2$ even for moderate sample sizes. 
 
-%Table \ref{tab:table4} shows the results for the structural parameters. The ATE and ATEM estimates are upward biased. This is because of the upward bias of $\gamma_1$. However, the bias of the ATE estimate is not that high compared to the bias of the treatment effect of the first class since class 1 represents just the 30\% of the sample. The variability of the ATE estimates are also high compare to the ATE estimates from E1. The IV and OLS estimates converge to their theoretical values. 
-
-%In sum, the LCIV estimator is not able to recover the treatment effect for the class in which endogeneity exists, but the instrument has no power. As expected, this also affects the bias of the ATE estimator. 
-
-Comparatively, the variability of the ATE estimates in E2 is noticeably higher than that in E1, reflecting the challenging estimation conditions imposed by limited instrumental power. In contrast, the Instrumental Variable (IV) and Ordinary Least Squares (OLS) estimators converge to their theoretical values as expected.
-
-In summary, the LCIV estimator faces difficulties in recovering the treatment effect for the class where endogeneity exists, and the instrument lacks power. As anticipated, this limitation also impacts the bias observed in the ATE estimator.
+In summary, the LCIV estimator faces difficulties in recovering the treatment effect for classes where endogeneity exists, and the instrument lacks power. As anticipated, this limitation also impacts the bias observed in the ATE estimator.
 
 \begin{center}
 	(Insert Table \ref{tab:table4} about here)
@@ -659,38 +636,44 @@ In summary, the LCIV estimator faces difficulties in recovering the treatment ef
 \section{Appendix: IV estimator under treatment and instrument heterogeneity}\label{app:iv-het}
 %----------------------------------------------------------------------------------
 
-It is well known that the IV estimator will converge to
-\begin{equation}\label{eq:IV-derivation}
-	\gamma_{IV} \pto \frac{\cov(y_{1i}, z_{i})}{\cov(y_{2i}, z_i)}. 
+For simplicity, assume a model with continuous heterogeneity:
+\begin{equation}\label{eq:simple-model-cont}
+	\begin{aligned}
+		y_{1i}   & =  \beta_{0i}  + \gamma_{i}y_{2i}  + \epsilon_{i}, \\
+		y_{2i}   & =  \delta_{0i} + \delta_{1i} z_{i} + \upsilon_{i}.
+	\end{aligned}
 \end{equation}
 
-Using our model in Equation \eqref{eq:simple-model} and working on the denominator of \eqref{eq:IV-derivation} we obtain
+It is well known that the IV estimator will converge to
+\begin{equation}\label{eq:IV-derivation}
+	\widehat{\gamma}_{\textrm{IV}} \pto \frac{\cov(y_{1i}, z_{i})}{\cov(y_{2i}, z_i)}. 
+\end{equation}
+
+Thus, using the model in Equation \eqref{eq:simple-model-cont} and assuming that the random parameters are distributed independently of $\epsilon_i$, $\upsilon_i$, and $z_i$, the denominator of \eqref{eq:IV-derivation} is expressed as
 \begin{equation}
 	\begin{aligned}
-			\cov(y_{2i}, z_{i}) & = \cov(\delta_{0i} + \delta_{1q} z_{i} + \upsilon_{iq}, z_i) \\
-			                    & = \cov(\delta_{0i}, z_i) + \cov(\delta_{1q}z_i, z_{i})+ \cov(\upsilon_{iq}, z_i)\\
-			                    & = \cov(\delta_{1q}z_i, z_{i})\\
-			                    & = \E(\delta_{1q})\var(z_i)
+			\cov(y_{2i}, z_{i}) & = \cov(\delta_{0i} + \delta_{1i} z_{i} + \upsilon_{i}, z_i), \\
+			                    & = \cov(\delta_{0i}, z_i) + \cov(\delta_{1i}z_i, z_{i})+ \cov(\upsilon_{i}, z_i),\\
+			                    & = \cov(\delta_{1i}z_i, z_{i}),\\
+			                    & = \E(\delta_{1i})\var(z_i),
 	\end{aligned}	
 \end{equation}
 %
-where we use the assumption that $z$ is independent of $\upsilon$ and $\delta_{1q}$. Thus, $\cov(\delta_{0i}, z_i) = \E\left[\left(z_i - \E(z_i)\right)\delta_{0i}\right] = \E\lbrace \E\left[\left(z_i - \E(z_i)\right)\delta_{0i}\right]|z_i\rbrace = \E\left[\left(z_i - \E(z_i)\right)\E(\delta_{0i}|z_i)\right] = \E\left(z_i - \E(z_i)\right)\E(\delta_{0i}) = 0$.
+where the third equality follows because $\cov(\upsilon_i, z_i) = 0$ by assumption, and because $\cov(\delta_{0i}, z_i) = \E\left[\left(z_i - \E(z_i)\right)\delta_{0i}\right] = \E\lbrace \E\left[\left(z_i - \E(z_i)\right)\delta_{0i}\right]|z_i\rbrace = \E\left[\left(z_i - \E(z_i)\right)\E(\delta_{0i}|z_i)\right] = \E\left(z_i - \E(z_i)\right)\E(\delta_{0i}) = 0$ by law of iterated expectations. The last equality follows because $\cov(\delta_{1i}z_i, z_{i}) = \E\left[\left(z_i - \E(z_i)\right)\delta_{1i}z_i\right] = \E\lbrace \E\left[\left(z_i - \E(z_i)\right)\delta_{1i}z_i\right]|z_i\rbrace = \E\left[\left(z_i - \E(z_i)\right)z_i\right] \E(\delta_{1i})$.
 
-Similarly for the numerator of \eqref{eq:IV-derivation}
+Similarly, for the numerator of \eqref{eq:IV-derivation} we obtain
 \begin{equation}
 	\begin{aligned}
-		\cov(y_{1i}, z_i)  & = \cov(\beta_{0i}  + \gamma_{i}y_{2i} + \epsilon_{i}, z_i) \\
-		                   & = \cov(\beta_{0i},z_i) + \cov(\gamma_{q}y_{2i}, z_{i})+ \cov(\epsilon_{iq}, z_i) \\
-		                   & = \cov(\gamma_q\delta_{1q} z_{i}, z_i) \\
-		                   & = \E(\gamma_q\delta_{1q})\var(z_i)
+		\cov(y_{1i}, z_i)  & = \cov(\beta_{0i}  + \gamma_{i}y_{2i} + \epsilon_{i}, z_i), \\
+		                   & = \cov(\beta_{0i},z_i) + \cov(\gamma_{i}y_{2i}, z_{i})+ \cov(\epsilon_{i}, z_i), \\
+		                   & = \cov(\gamma_i\delta_{1i} z_{i}, z_i), \\
+		                   & = \E(\gamma_i\delta_{1i})\var(z_i).
 	\end{aligned}
 \end{equation}
-%
-where $\cov(\gamma_{q}y_{2i}, z_{i}) = \E(\gamma_{q}y_{2i}z_{i}) - \E(\gamma_{q}y_{2i})\E(z_i)$
-Then:
 
+Then, $\widehat{\gamma}_{\textrm{IV}} \pto \frac{\cov(y_{1i}, z_{i})}{\cov(y_{2i}, z_i)} = \frac{\E(\gamma_i\delta_{1i})}{\E(\delta_{1i})}$. Since in our setup the parameters are distributed assuming a discrete distribution, then
 \begin{equation}
-		\gamma_{IV} \pto \frac{\cov(y_{1i}, z_{i})}{\cov(y_{2i}, z_i)} = \frac{\E(\gamma_q\delta_{1q})}{\E(\delta_{1q})}= \frac{\sum_{q = 1}^Q\pi_q\gamma_q\delta_{1q}}{\sum_{q = 1}^Q\pi_q\delta_{1q}}
+		\widehat{\gamma}_{\textrm{IV}} \pto \frac{\E(\gamma_i\delta_{1i})}{\E(\delta_{1i})}= \frac{\sum_{q = 1}^Q\pi_q\gamma_q\delta_{1q}}{\sum_{q = 1}^Q\pi_q\delta_{1q}}.
 \end{equation}
 
 
@@ -698,7 +681,7 @@ Then:
 \section{Appendix: Parameter transformation}\label{app:transformation}
 %----------------------------------------------------------------------------------
 
-During the optimization procedure of the log-likelihood function the parameters $\sigma_{\upsilon, q}$, $\sigma_{\upsilon, q}$ and $\rho_q$ might tend to the boundary points of the parameter space generating identifiability problems of the MLE. To avoid this issue, we makes some re-parametrization of the parameters. First, to ensure $\sigma_{\epsilon, q} > 0$ and $\sigma_{\upsilon, q} > 0$, we rather estimate $\ln \nu_{\epsilon, q}$ and $\ln \nu_{\upsilon, q}$  such that
+During the optimization procedure of the log-likelihood function the parameters $\sigma_{\epsilon, q}$, $\sigma_{\upsilon, q}$, and $\rho_q$ $\forall q = 1, ..., Q$,  might tend to the boundary points of the parameter space generating identifiability problems of the MLE. To avoid this issue, we make some re-parametrization of the parameters. First, to ensure $\sigma_{\epsilon, q} > 0$ and $\sigma_{\upsilon, q} > 0$, we rather estimate $\ln \nu_{\epsilon, q}$ and $\ln \nu_{\upsilon, q}$  such that
 \begin{equation}\label{eq:repsigma}
 	\begin{aligned}
 	\sigma_{\upsilon, q} & = \exp(\ln \nu_{\epsilon, q}),  \\
@@ -710,7 +693,7 @@ Second, we force the correlation to remain in the \((-1, +1)\) interval by using
 \begin{equation}
 	\textrm{atanh}(\rho_q) = \tau_q = \frac{1}{2}\log\left(\frac{1 +  \rho_q}{1 - \rho_q}\right),
 \end{equation}
-where \(\tau_q\) is unrestricted, and \(\rho_q\) can be obtained using the inverse of \(\tau_q\)
+where \(\tau_q\) is unrestricted. Therefore, \(\rho_q\) can be obtained using the inverse of \(\tau_q\):
 \begin{equation}
 	\tau_q^{-1} = \rho_q = \tanh(\tau_q).
 	\label{eq:reprho}
@@ -722,10 +705,10 @@ where \(\tau_q\) is unrestricted, and \(\rho_q\) can be obtained using the inver
 
 In this section, we provide the gradient of the log-likelihood function using the transformations presented in Appendix \ref{app:transformation}. 
 
-Given the class $q$ that individual $i$ belongs to, the joint distribution of $(y_{1iq}, y_{2iq})$, conditional on $\vz_{iq}$, is $P_{i|q}= f_q(y_{1iq}|y_{2iq}, \vz_{iq})f_q(y_{2iq}|\vz_{iq})$. Under the normality of $(\epsilon_{iq}, \upsilon_{iq})$, we can write $\epsilon_{iq}|\upsilon_{iq} = \left[(\rho_q\sigma_{q, \epsilon})/\sigma_{q, \upsilon}\right]\upsilon_{iq}  + \eta_{iq}$, where $\eta_{iq}\sim\rN\left(0, \left[1 - \rho_{q}^2\right]\sigma_{q, \epsilon}^2\right)$. Then, replacing the error term yields:
-\begin{equation}
+Given the class $q$ that individual $i$ belongs to, the joint distribution of $(y_{1iq}, y_{2iq})$, conditional on $\vz_{iq}$, is $P_{i|q}= f_q(y_{1iq}|y_{2iq}, \vz_{iq})f_q(y_{2iq}|\vz_{iq})$. Under Assumption \ref{assu:distribution}, we can write $\epsilon_{iq}|\upsilon_{iq} = \left[(\rho_q\sigma_{q, \epsilon})/\sigma_{q, \upsilon}\right]\upsilon_{iq}  + \eta_{iq}$, where $\eta_{iq}\sim\rN\left(0, \left[1 - \rho_{q}^2\right]\sigma_{q, \epsilon}^2\right)$. Then, replacing the error term into Equation \eqref{eq:first_eqLC} yields:
+\begin{equation*}
 	y_{1iq}|y_{2iq} =  \vx_{iq}^\top\vbeta_q + \left[(\rho_q\sigma_{q, \epsilon})/\sigma_{q, \upsilon}\right]\upsilon_{iq}   + \eta_{iq}.
-\end{equation}
+\end{equation*}
 
 Since $\upsilon_{iq} = y_{2iq} - \vz_{iq}^\top\vdelta_q$, then the probability of individual $i$ conditional on $y_{2iq}$ and $\vz_{iq}$ is
 \begin{equation}\label{eq:conditional}
@@ -751,7 +734,7 @@ The contribution of each individual to the log-likelihood function is:
 	\end{aligned}
 \end{equation}
 %
-where $\vtheta = \left(\vzeta_1^\top, \vzeta_2^\top, ..., \vzeta_Q^\top, \vlambda_1^\top, \vlambda_2^\top, ...., \vlambda_Q^\top\right)^\top$,  $\vlambda_1 = \vzeros$ for identification, $\vzeta_q = (\vbeta_q^\top, \vdelta_q^\top, \sigma_{q, \epsilon}, \sigma_{q, \upsilon}, \rho_q)^\top$ is an $\left(K + P + 3\right)$-dimensional vector;  and $\vlambda_q$ is an $L$-dimensional vector for $q = 1, ..., Q$. 
+where $\vtheta = \left(\vzeta_1^\top, \vzeta_2^\top, ..., \vzeta_Q^\top, \vlambda_1^\top, \vlambda_2^\top, ...., \vlambda_Q^\top\right)^\top$,  $\vlambda_1 = \vzeros$ for identification, $\vzeta_q = (\vbeta_q^\top, \vdelta_q^\top, \sigma_{q, \epsilon}, \sigma_{q, \upsilon}, \rho_q)^\top$ is an $\left(K + P + 3\right)$-dimensional vector, and $\vlambda_q$ is an $L$-dimensional vector for $q = 1, ..., Q$. 
 
 Taking the derivative of \eqref{eq:log-like-app} with respect to $\vzeta_q$ yields
 \begin{equation}\label{eq:der_zeta_q}
@@ -763,33 +746,33 @@ Taking the derivative of \eqref{eq:log-like-app} with respect to $\vzeta_q$ yiel
 \end{equation}
 %
 where:
-\begin{equation}
+\begin{equation*}
 	w_{iq} = \frac{\pi_{iq}P_{i|q}}{\sum_{q = 1}^Q \pi_{iq}P_{i|q}}=\frac{\pi_{iq}P_{i|q}}{P_i},
-\end{equation}
+\end{equation*}
 %
 is a weight so that $0< w_{iq} < 1$ and $\sum_{q = 1}^Qw_{iq} = 1$.
 
 Similarly, taking the derivative of \eqref{eq:log-like-app} with respect to $\vlambda_q$ yields
-\begin{equation}
+\begin{equation*}
 		\begin{aligned}
 		\frac{\partial \ell_i(\vtheta)}{\partial \vlambda_q}  =  \left[\frac{1}{P_i}\sum_{q = 1}^QP_{i|q}\pi_{iq}\frac{\partial \ln \pi_{iq}}{\partial \vlambda_q}\right],
 		\end{aligned}
-\end{equation}
+\end{equation*}
 %
 where $\ln \pi_{iq}= \vh_i^\top\vlambda_q- \ln\left(\sum_{c = 1}^Q\exp\left(\vh_i^\top\vlambda_c\right)\right)$. Thus
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
 		\frac{\partial \ln \pi_{iq}}{\partial \vlambda_q} = \mathbbm{1}\left(q = c\right)\vh_i - \pi_{iq}\vh_i.
 	\end{aligned}
-\end{equation}
+\end{equation*}
 
 To derive $\partial \ln P_{i|j}(\vzeta_q)/ \partial \vzeta_q$ in Equation \eqref{eq:der_zeta_q}, note that the logarithm of Equation \eqref{eq:joint-distribution} is
-\begin{equation}
+\begin{equation*}
 	\ln P_{i|q} = \ln(1) - \ln\left(\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}\right) +\ln \left[\phi(a_{iq})\right] + \ln(1) - \ln(\sigma_{q,\upsilon}) + \ln \left[\phi(b_{iq})\right],
-\end{equation}
+\end{equation*}
 %
 where we use the following notation and transformations introduced in Appendix \ref{app:transformation}: 
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
 		P_i & = \sum_{q = 1}^{Q}\left(\pi_{iq} P_{i|q} \right),\\
 		P_{i|q} & = \left[\frac{1}{\sqrt{\left(1 - \rho_{q}^2\right)\sigma_{q, \epsilon}^2}}\phi\left(a_{iq}\right)\right]\left[\frac{1}{\sigma_{q, \upsilon}}\phi\left(b_{iq}\right)\right],\\
@@ -799,33 +782,36 @@ where we use the following notation and transformations introduced in Appendix \
 		\sigma_{\upsilon,q} & = \exp(\ln \nu_{\upsilon,q}), \\
 		\rho_q &= \tanh(\tau_q) = \frac{\exp(2\tau_q) - 1}{\exp(2\tau_q) + 1}.\\
 	\end{aligned}
-\end{equation}
+\end{equation*}
 
 Using this notation, the derivative $\partial \ln P_{i|q}/\partial \vzeta_q$ is
-\begin{equation}
+\begin{equation*}
 	\begin{aligned}
-		\underset{(K\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \vbeta_q}} & = \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \vbeta_q}\right]  = - a_{iq}\left[\frac{\partial a_{iq}}{\partial \vbeta_q}\right], \\
+		\underset{(K\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \vbeta_q}} & = \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \vbeta_q}\right] = - a_{iq}\left[\frac{\partial a_{iq}}{\partial \vbeta_q}\right], \\
 		\underset{(P\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \vdelta_q}} & = \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \vdelta_q}\right] + \left[\frac{\phi'(b_{iq})}{\phi(b_{iq})}\right]\left[\frac{\partial b_{iq}}{\partial \vdelta_q}\right] = -a_{iq}\left[\frac{\partial a_{iq}}{\partial \vdelta_q}\right]  -b_{iq}\left[\frac{\partial b_{iq}}{\partial \vdelta_q}\right], \\
 		\underset{(1\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \ln \nu_{\epsilon, q}}} & = -1 + \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\epsilon, q}}\right] = -1 - a_{iq}\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\epsilon, q}}\right], \\
-	\underset{(1\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \ln \nu_{\upsilon, q}}} & = -1 + \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\upsilon, q}}\right] + \left[\frac{\phi'(b_{iq})}{\phi(b_{iq})}\right]\left[\frac{\partial b_{iq}}{\partial \ln \nu_{\upsilon, q}}\right] = -1 -a_{iq}\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\upsilon, q}}\right] - b_{iq}\left[\frac{\partial b_{iq}}{\partial \ln \nu_{\upsilon, q}}\right],  \\
+	\underset{(1\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \ln \nu_{\upsilon, q}}} & = -1 + \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\upsilon, q}}\right] + \left[\frac{\phi'(b_{iq})}{\phi(b_{iq})}\right]\left[\frac{\partial b_{iq}}{\partial \ln \nu_{\upsilon, q}}\right], \\
+	& = -1 -a_{iq}\left[\frac{\partial a_{iq}}{\partial \ln \nu_{\upsilon, q}}\right] - b_{iq}\left[\frac{\partial b_{iq}}{\partial \ln \nu_{\upsilon, q}}\right],  \\
 	   \underset{(1\times 1)}{\frac{\partial \ln P_{i|q}}{\partial \tau_q}} & = \rho_q +  \left[\frac{\phi'(a_{iq})}{\phi(a_{iq})}\right]\left[\frac{\partial a_{iq}}{\partial \tau_q}\right] = \rho_q -a_{iq}\left[\frac{\partial a_{iq}}{\partial \tau_q}\right].
 	\end{aligned}
-\end{equation}
+\end{equation*}
 %
 where we use the fact that $\phi'(z) = -z \phi(z)$ so that $\phi'(z)/\phi(z)= -z$. The derivatives of $a_{iq}$ and $b_{iq}$ are
 \begin{equation*}
 	\begin{aligned}
-		\frac{\partial a_{iq}}{\partial \vbeta_q} & = - \left(\frac{1}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}\right)\vx_{iq}, \quad \frac{\partial a_{iq}}{\partial \vdelta_q}  =  \left(\frac{1}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}\right)\left(\frac{\sigma_{q, \epsilon}\rho_q}{\sigma_{\upsilon,q}}\right)\vz_{iq}, \\
-		\frac{\partial a_{iq}}{\partial \ln \nu_{q, \epsilon}} & = -\frac{\left(y_{1iq}-\vx_{iq}^\top\vbeta\right)}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}},\quad \frac{\partial a_{iq}}{\partial \ln \nu_{q, \upsilon}}    = \frac{\sigma_{q,\epsilon}\rho_q}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}b_{iq}, 
-		\quad \frac{\partial a_{iq}}{\partial\tau_{q}}   = \frac{\left(y_{1iq}-\vx_{iq}^\top\vbeta_q\right)\rho_q- b_{iq}\sigma_{q, \epsilon}}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}, \\
-		\frac{\partial b_{iq}}{\partial \vdelta_q} & = -\left(\frac{1}{\sigma_{q, \upsilon}}\right)\vz_{iq}, \quad \frac{\partial b_{iq}}{\partial \ln \nu_{q, \upsilon}} = -b_{iq}, \\
+		\frac{\partial a_{iq}}{\partial \vbeta_q} & = - \left(\frac{1}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}\right)\vx_{iq}, \\  
+		\frac{\partial a_{iq}}{\partial \vdelta_q}  & =  \left(\frac{1}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}\right)\left(\frac{\sigma_{q, \epsilon}\rho_q}{\sigma_{\upsilon,q}}\right)\vz_{iq}, \\
+		\frac{\partial a_{iq}}{\partial \ln \nu_{q, \epsilon}} & = -\frac{\left(y_{1iq}-\vx_{iq}^\top\vbeta\right)}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}},\\ 
+		\frac{\partial a_{iq}}{\partial \ln \nu_{q, \upsilon}} &= \frac{\sigma_{q,\epsilon}\rho_q}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}b_{iq}, \\ 
+		\frac{\partial a_{iq}}{\partial\tau_{q}}  & = \frac{\left(y_{1iq}-\vx_{iq}^\top\vbeta_q\right)\rho_q- b_{iq}\sigma_{q, \epsilon}}{\sqrt{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}}, \\
+		\frac{\partial b_{iq}}{\partial \vdelta_q} & = -\left(\frac{1}{\sigma_{q, \upsilon}}\right)\vz_{iq}, \\ 
+		\frac{\partial b_{iq}}{\partial \ln \nu_{q, \upsilon}} & = -b_{iq}, \\
 	\end{aligned}
 \end{equation*}
 %
 where $d \tanh(\tau_q) / d \tau_q = \textrm{sech}^2(\tau_q) = 1- \tanh^2(\tau_q)$. 
 
 Finally, the contribution of each individual to the score function for each $q = 1, ..., Q$ is
-
 \begin{equation}
 	\vs_{iq}(\vtheta) =\begin{pmatrix}
 		               w_{iq}\left[\frac{(y_{1iq}-\vx_{iq}^\top\vbeta_q) - \eta_q(y_{2iq}-\vz_{iq}^\top\vdelta_q)}{(1 - \rho^2_q)\sigma_{q, \epsilon}^2}\right]\vx_{iq} \\
