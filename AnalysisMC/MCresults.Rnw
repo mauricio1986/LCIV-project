@@ -57,10 +57,8 @@
 \frenchspacing
 
 \begin{document}
-%\SweaveOpts{concordance=TRUE}
-%\SweaveOpts{concordance=TRUE}
 
-\title{Monte Carlo results for: Instrumental Variables with Unobserved Heterogeneity: A Latent Class Approach}
+\title{Monte Carlo results for: Instrumental Variables with observed and unobserved heterogeneity of the treatment and instrument effect: A latent class approach. }
 
 \author{Pablo Rodriguez-Rodriguez \and Mauricio Sarrias}
 
@@ -70,14 +68,10 @@
 \pagenumbering{arabic}
 
 
-This document presents the main results for the Monte Carlo experiment. 
-
-
-\pagebreak
+This document presents the main results for the Monte Carlo experiment. Although we performed three MC experiment, we only present the results for the first and third experiment. 
 
 <<setup, echo = FALSE, warning=FALSE, message=FALSE>>=
 rm(list = ls(all.names = TRUE))
-setwd("~/Dropbox/work/Packages/Testing-ivhetLc")
 
 # Load packages
 library("ivhetLc")
@@ -85,6 +79,7 @@ library("AER")
 library("memisc")
 library("xtable")
 
+# Function to sanitize MC results
 sanitize <- function(x, par, class, type){
   #if(class == "class 1") q <-1 else q <- 2
   share1 <- x[["lciv"]]["share", "est", "class 1"]
@@ -104,6 +99,7 @@ sanitize <- function(x, par, class, type){
   }
 }
 
+# Function to summarize MC samples
 sum_mc <- function(R){
   # Estimates
   gamma_q1 <- as.numeric(lapply(R, sanitize, par = "eq.1.y2", class = "class 1", type = "est"))
@@ -158,14 +154,6 @@ sum_mc <- function(R){
                 sqrt(var(rho_q2)   + bias[6]^2),
                 sqrt(var(share_q1) + bias[7]^2), 
                 sqrt(var(share_q2) + bias[8]^2))
-  #rej <- rbind(mean(abs((gamma_q1 - gamma[1]) / sgamma_q1) > 1.96), 
-  #             mean(abs((gamma_q2 - gamma[2]) / sgamma_q2) > 1.96), 
-  #             mean(abs((delta_q1 - d1[1]) / sdelta_q1) > 1.96), 
-  #             mean(abs((delta_q2 - d1[2]) / sdelta_q2) > 1.96), 
-  #             mean(abs((rho_q1 - rho[1]) / srho_q1) > 1.96), 
-  #             mean(abs((rho_q2 - rho[2]) / srho_q2) > 1.96), 
-  #             mean(abs((share_q1 - prop[1]) / sshare_q1) > 1.96), 
-  #             mean(abs((share_q2 - prop[2]) / sshare_q2) > 1.96))
   rej <- rbind(mean(lgamma_q1 < gamma[1] & gamma[1] < ugamma_q1), 
                mean(lgamma_q2 < gamma[2] & gamma[2] < ugamma_q2), 
                mean(ldelta_q1 < d1[1] & d1[1] < udelta_q1),
@@ -174,8 +162,6 @@ sum_mc <- function(R){
                mean(lrho_q2 < rho[2] & rho[2]  < urho_q2), 
                mean(lshare_q1 < prop[1] & prop[1]  < ushare_q1),
                mean(lshare_q2 < prop[2] & prop[2] < ushare_q2))
-  #out <- cbind(bias, rmse, rej)
-  #colnames(out) <- c("Bias", "RMSE", "Cov")
   out <- cbind(bias, rmse)
   colnames(out) <- c("Bias", "RMSE")
   return(out)
@@ -207,7 +193,7 @@ Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
 
 <<tab1a, echo = FALSE, results = 'asis'>>=
 # Change bad values
-load("results_MC1.Rdata")
+load("../MC/results_MC1.Rdata")
 prop     <- c(0.3, 0.7)    # Proportion of individuals in each class
 rho      <- c(0.5, 0.5)     # Degree of the endogeneity 
 # Structural parameters
@@ -217,7 +203,7 @@ gamma    <- c(-1, 2)
 d0       <- c(-1, 1)
 d1       <- c(-1, 2)
 
-
+# Table
 table <- cbind(sum_mc(FL1_n1), 
                sum_mc(FL1_n2), 
                sum_mc(FL1_n3), 
@@ -231,7 +217,7 @@ rownames(table) <- c("$\\gamma_{1}$",
                      "$\\pi_{1}$", 
                      "$\\pi_{2}$")
 table <- xtable(table)
-caption(table) <- "Simulation results for LCIV parameters\\label{tab:table1}"
+caption(table) <- "Simulation results for LCIV parameters"
 digits(table) <- c(0, rep(4, 8))
 align(table) <- "lcccccccc"
 addtorow     <- list()
@@ -445,7 +431,7 @@ Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
 %----------------------------------------------------
 
 <<tab1c, echo = FALSE, results = 'asis'>>=
-load("results_MC3.Rdata")
+load("../MC/results_MC3.Rdata")
 prop     <- c(0.3, 0.7)    # Proportion of individuals in each class
 rho      <- c(0.5, 0.5)     # Degree of the endogeneity 
 # Structural parameters
@@ -468,7 +454,7 @@ rownames(table) <- c("$\\gamma_{1}$",
                      "$\\pi_{1}$", 
                      "$\\pi_{2}$")
 table <- xtable(table)
-caption(table) <- "Simulation results for LCIV parameters\\label{tab:table3}"
+caption(table) <- "Simulation results for LCIV parameters"
 digits(table) <- c(0, rep(4, 8))
 align(table) <- "lcccccccc"
 addtorow     <- list()

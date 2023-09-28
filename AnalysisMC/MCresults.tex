@@ -1,0 +1,310 @@
+ \documentclass[12pt]{article}\usepackage[]{graphicx}\usepackage[]{xcolor}
+% maxwidth is the original width if it is less than linewidth
+% otherwise use linewidth (to make sure the graphics do not exceed the margin)
+\makeatletter
+\def\maxwidth{ %
+  \ifdim\Gin@nat@width>\linewidth
+    \linewidth
+  \else
+    \Gin@nat@width
+  \fi
+}
+\makeatother
+
+\definecolor{fgcolor}{rgb}{0.345, 0.345, 0.345}
+\newcommand{\hlnum}[1]{\textcolor[rgb]{0.686,0.059,0.569}{#1}}%
+\newcommand{\hlstr}[1]{\textcolor[rgb]{0.192,0.494,0.8}{#1}}%
+\newcommand{\hlcom}[1]{\textcolor[rgb]{0.678,0.584,0.686}{\textit{#1}}}%
+\newcommand{\hlopt}[1]{\textcolor[rgb]{0,0,0}{#1}}%
+\newcommand{\hlstd}[1]{\textcolor[rgb]{0.345,0.345,0.345}{#1}}%
+\newcommand{\hlkwa}[1]{\textcolor[rgb]{0.161,0.373,0.58}{\textbf{#1}}}%
+\newcommand{\hlkwb}[1]{\textcolor[rgb]{0.69,0.353,0.396}{#1}}%
+\newcommand{\hlkwc}[1]{\textcolor[rgb]{0.333,0.667,0.333}{#1}}%
+\newcommand{\hlkwd}[1]{\textcolor[rgb]{0.737,0.353,0.396}{\textbf{#1}}}%
+\let\hlipl\hlkwb
+
+\usepackage{framed}
+\makeatletter
+\newenvironment{kframe}{%
+ \def\at@end@of@kframe{}%
+ \ifinner\ifhmode%
+  \def\at@end@of@kframe{\end{minipage}}%
+  \begin{minipage}{\columnwidth}%
+ \fi\fi%
+ \def\FrameCommand##1{\hskip\@totalleftmargin \hskip-\fboxsep
+ \colorbox{shadecolor}{##1}\hskip-\fboxsep
+     % There is no \\@totalrightmargin, so:
+     \hskip-\linewidth \hskip-\@totalleftmargin \hskip\columnwidth}%
+ \MakeFramed {\advance\hsize-\width
+   \@totalleftmargin\z@ \linewidth\hsize
+   \@setminipage}}%
+ {\par\unskip\endMakeFramed%
+ \at@end@of@kframe}
+\makeatother
+
+\definecolor{shadecolor}{rgb}{.97, .97, .97}
+\definecolor{messagecolor}{rgb}{0, 0, 0}
+\definecolor{warningcolor}{rgb}{1, 0, 1}
+\definecolor{errorcolor}{rgb}{1, 0, 0}
+\newenvironment{knitrout}{}{} % an empty environment to be redefined in TeX
+
+\usepackage{alltt}
+
+%------------- fonts ------------------------------
+
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+%\usepackage{fourier} % Use the Adobe Utopia font for the document - comment this line to return to the LaTeX default
+%\usepackage{mathptmx}
+%\usepackage{kpfonts}
+%\usepackage{stix}
+%\usepackage{libertine}
+\usepackage[english]{babel} % English language/hyphenation
+\usepackage[compact]{titlesec}
+\usepackage[bottom]{footmisc} % typesetting of footnotes
+
+
+
+%-------------- Math packges ----------------------
+\usepackage{amsmath, amssymb, bm, bbm, natbib, babel, units}
+%\input{ee.sty}
+
+%----------- Hyperref------------------------------
+\usepackage[colorlinks = true, linkcolor = blue, citecolor = blue, urlcolor = black, breaklinks]{hyperref}
+\usepackage{authblk} %authors
+\usepackage{changes}
+
+% ------------ Graphics -----------------
+\usepackage{graphicx}
+\usepackage{float}
+\DeclareGraphicsExtensions{.png,.pdf,.jpg,.eps}
+%\usepackage[capposition = top]{floatrow}
+
+% ------ packages for tables ------------
+\usepackage{longtable, array, booktabs, dcolumn, multirow, siunitx}
+\usepackage[hang, singlelinecheck=off, center]{caption}
+\usepackage[flushleft]{threeparttable}
+
+
+% ------ format of pages ---------------
+\usepackage{pdflscape} % allows landscape tables with pdflatex
+\usepackage[right=2.5cm,left=2.5cm,top=2cm,bottom=2cm,headsep=0.5cm,footskip=0.5cm]{geometry}
+%\setlength\parindent{0pt} % no indent all document
+\raggedbottom % No stretched tex
+\sloppy % Avoid overfull hbox
+\pretolerance=2000
+\tolerance=3000
+%------- appendix ---------------
+\usepackage[title]{appendix}
+
+%------------- other ---------------
+\usepackage{color}
+
+\newtheorem{assump}{Assumption}
+\newtheorem{remark}{Remark}
+
+\renewcommand{\baselinestretch}{1.2}
+\pagestyle{plain}
+\frenchspacing
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\begin{document}
+
+\title{Monte Carlo results for: Instrumental Variables with observed and unobserved heterogeneity of the treatment and instrument effect: A latent class approach. }
+
+\author{Pablo Rodriguez-Rodriguez \and Mauricio Sarrias}
+
+
+\date{\today}
+\maketitle
+\pagenumbering{arabic}
+
+
+This document presents the main results for the Monte Carlo experiment. Although we performed three MC experiment, we only present the results for the first and third experiment. 
+
+
+
+%-------------------------
+\section{Experiment 1}
+%-------------------------
+
+In this experiment:
+
+\begin{table}[H]
+\caption{True values of the parameters for MC experiment 1}\label{tab:exp1}
+\centering
+\begin{tabular}{lcccccccc}
+\midrule
+  & $\beta_0$  & $\gamma$ & $\delta_0$  & $\delta_1$ & $\rho$ & $\sigma_{\epsilon}$ & $\sigma_{\upsilon}$ & $\pi$ \\
+\midrule
+Class 1 & -1 & -1  & -1  &  -1 & 0.5 & 1 & 1 & 0.3\\
+Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
+\midrule
+\end{tabular}
+\end{table}
+
+%=================================================
+\subsection{Results for parameters in each class}
+%=================================================
+
+% latex table generated in R 4.2.3 by xtable 1.8-4 package
+% Thu Sep 28 09:26:57 2023
+\begin{longtable}{lcccccccc}
+\caption{Simulation results for LCIV parameters} \\ 
+  \toprule & \multicolumn{2}{c}{$N$ = 100} & \multicolumn{2}{c}{$N$ = 500} & \multicolumn{2}{c}{$N$ = 1000} &  \multicolumn{2}{c}{$N$ = 5000} \\
+ \toprule
+ & Bias & RMSE & Bias & RMSE & Bias & RMSE & Bias & RMSE \\ 
+  \midrule
+$\gamma_{1}$ & -0.0048 & 0.0657 & -0.0003 & 0.0281 & 0.0004 & 0.0197 & 0.0001 & 0.0085 \\ 
+  $\gamma_{2}$ & -0.0001 & 0.0206 & 0.0000 & 0.0089 & -0.0001 & 0.0063 & 0.0001 & 0.0028 \\ 
+  $\delta_{11}$ & 0.0012 & 0.0671 & -0.0008 & 0.0277 & 0.0000 & 0.0200 & -0.0007 & 0.0090 \\ 
+  $\delta_{12}$ & -0.0023 & 0.0414 & 0.0003 & 0.0183 & 0.0001 & 0.0129 & -0.0003 & 0.0056 \\ 
+  $\rho_{1}$ & -0.0026 & 0.1577 & -0.0033 & 0.0718 & -0.0014 & 0.0491 & -0.0011 & 0.0215 \\ 
+  $\rho_{2}$ & -0.0017 & 0.0933 & 0.0016 & 0.0421 & 0.0003 & 0.0282 & -0.0002 & 0.0134 \\ 
+  $\pi_{1}$ & -0.0004 & 0.0144 & 0.0003 & 0.0063 & -0.0002 & 0.0044 & -0.0000 & 0.0021 \\ 
+  $\pi_{2}$ & 0.0004 & 0.0144 & -0.0003 & 0.0063 & 0.0002 & 0.0044 & 0.0000 & 0.0021 \\ 
+   \bottomrule
+\end{longtable}
+
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\gamma$ and $\delta_1$ for both classes by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig1a-1} 
+\end{knitrout}
+\end{figure}
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\rho$  and $\pi$ for both classes by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig2a-1} 
+\end{knitrout}
+\end{figure}
+
+%========================================
+\subsection{Results for causal parameters}
+%========================================
+
+\begin{figure}[H]
+ \caption{Distribution of causal parameters by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig3a-1} 
+\end{knitrout}
+\end{figure}
+
+
+% latex table generated in R 4.2.3 by xtable 1.8-4 package
+% Thu Sep 28 09:26:57 2023
+\begin{longtable}{lcccccccc}
+\caption{Simulation results for causal parameters} \\ 
+  \toprule & \multicolumn{2}{c}{$N$ = 100} & \multicolumn{2}{c}{$N$ = 500} & \multicolumn{2}{c}{$N$ = 1000} &  \multicolumn{2}{c}{$N$ = 5000} \\
+ \toprule
+ & Mean & SD & Mean & SD & Mean & SD & Mean & SD \\ 
+  \midrule
+ATE & 1.0998 & 0.0499 & 1.0992 & 0.0221 & 1.1005 & 0.0150 & 1.1002 & 0.0072 \\ 
+  ATEM & 1.0986 & 0.0589 & 1.0996 & 0.0223 & 1.1003 & 0.0147 & 1.1001 & 0.0073 \\ 
+  IV & 2.8966 & 0.4008 & 2.8252 & 0.1487 & 2.8252 & 0.1070 & 2.8213 & 0.0465 \\ 
+  OLS & 1.6930 & 0.0878 & 1.7004 & 0.0381 & 1.6991 & 0.0286 & 1.6993 & 0.0123 \\ 
+   \bottomrule
+\end{longtable}
+
+
+
+%-------------------------
+\section{Experiment 2}
+%-------------------------
+
+In this experiment:
+
+\begin{table}[H]
+\caption{True values of the parameters for MC experiment 3}\label{tab:exp1}
+\centering
+\begin{tabular}{lcccccccc}
+\midrule
+  & $\beta_0$  & $\gamma$ & $\delta_0$  & $\delta_1$ & $\rho$ & $\sigma_{\epsilon}$ & $\sigma_{\upsilon}$ & $\pi$ \\
+\midrule
+Class 1 & -1 & -1  & -1  &  0 & 0.5 & 1 & 1 & 0.3\\
+Class 2 &  1 &  2  &  1  &  2  & 0.5 & 1 & 1 & 0.7\\
+\midrule
+\end{tabular}
+\end{table}
+
+%----------------------------------------------------
+\subsection{Results for parameters in each class}
+%----------------------------------------------------
+
+% latex table generated in R 4.2.3 by xtable 1.8-4 package
+% Thu Sep 28 09:26:58 2023
+\begin{longtable}{lcccccccc}
+\caption{Simulation results for LCIV parameters} \\ 
+  \toprule & \multicolumn{2}{c}{$N$ = 100} & \multicolumn{2}{c}{$N$ = 500} & \multicolumn{2}{c}{$N$ = 1000} &  \multicolumn{2}{c}{$N$ = 5000} \\
+ \toprule
+ & Bias & RMSE & Bias & RMSE & Bias & RMSE & Bias & RMSE \\ 
+  \midrule
+$\gamma_{1}$ & 0.6626 & 9.9453 & 0.3207 & 8.2491 & 0.4009 & 6.9113 & 0.8328 & 5.6113 \\ 
+  $\gamma_{2}$ & 0.0010 & 0.0206 & 0.0006 & 0.0088 & 0.0006 & 0.0065 & 0.0004 & 0.0032 \\ 
+  $\delta_{11}$ & 0.0004 & 0.0674 & 0.0001 & 0.0270 & 0.0004 & 0.0193 & 0.0005 & 0.0085 \\ 
+  $\delta_{12}$ & 0.0037 & 0.0407 & 0.0006 & 0.0180 & 0.0006 & 0.0131 & 0.0005 & 0.0059 \\ 
+  $\rho_{1}$ & -0.5119 & 0.8873 & -0.4634 & 0.8537 & -0.4579 & 0.8507 & -0.5182 & 0.8924 \\ 
+  $\rho_{2}$ & -0.0208 & 0.1162 & -0.0125 & 0.0660 & -0.0127 & 0.0597 & -0.0145 & 0.0583 \\ 
+  $\pi_{1}$ & 0.0003 & 0.0193 & -0.0002 & 0.0086 & -0.0001 & 0.0064 & 0.0001 & 0.0052 \\ 
+  $\pi_{2}$ & -0.0003 & 0.0193 & 0.0002 & 0.0086 & 0.0001 & 0.0064 & -0.0001 & 0.0052 \\ 
+   \bottomrule
+\end{longtable}
+
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\gamma$ and $\delta_1$ for both classes by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig1c-1} 
+\end{knitrout}
+\end{figure}
+
+
+\begin{figure}[H]
+ \caption{Distribution of $\rho$  and $\pi$ for both classes by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig2c-1} 
+\end{knitrout}
+\end{figure}
+
+\section{Results for causal parameters}
+
+\begin{figure}[H]
+ \caption{Distribution of causal parameters by sample size}
+ \centering
+\begin{knitrout}
+\definecolor{shadecolor}{rgb}{0.969, 0.969, 0.969}\color{fgcolor}
+\includegraphics[width=\maxwidth]{figure/fig3c-1} 
+\end{knitrout}
+\end{figure}
+
+% latex table generated in R 4.2.3 by xtable 1.8-4 package
+% Thu Sep 28 09:26:59 2023
+\begin{longtable}{lcccccccc}
+\caption{Simulation results for causal parameters} \\ 
+  \toprule & \multicolumn{2}{c}{$N$ = 100} & \multicolumn{2}{c}{$N$ = 500} & \multicolumn{2}{c}{$N$ = 1000} &  \multicolumn{2}{c}{$N$ = 5000} \\
+ \toprule
+ & Mean & SD & Mean & SD & Mean & SD & Mean & SD \\ 
+  \midrule
+ATE & 1.2961 & 2.9173 & 1.1983 & 2.4607 & 1.2203 & 2.0548 & 1.3516 & 1.6582 \\ 
+  ATEM & 1.2495 & 2.6833 & 1.1821 & 2.5962 & 1.1729 & 2.0715 & 1.2541 & 1.5848 \\ 
+  IV & 2.0000 & 0.0451 & 2.0001 & 0.0187 & 2.0002 & 0.0133 & 1.9999 & 0.0059 \\ 
+  OLS & 1.9693 & 0.0239 & 1.9695 & 0.0103 & 1.9699 & 0.0075 & 1.9696 & 0.0033 \\ 
+   \bottomrule
+\end{longtable}
+
+
+
+\end{document}
